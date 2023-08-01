@@ -1,0 +1,37 @@
+{
+  "name": "fastify-kito-ai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p tsconfig.json",
+    "start": "node build/index.js",
+    "dev": "ts-node src/index.ts && node build/index.js"
+  },
+  "keywords": [],
+  "author": "kito129",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/type-provider-typebox": "^3.3.0",
+    "@sinclair/typebox": "^0.30.0",
+    "dotenv": "^8.2.0",
+    "env-var": "^6.3.0",
+    "fastify": "^4.21.0",
+    "fastify-autoload": "^3.3.0",
+    "fastify-static": "^4.7.0",
+    "fluent-schema": "^1.0.4",
+    "ts-node": "^9.0.0",
+    "ts-node-dev": "^1.0.0-pre.62"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.5",
+    "@types/tap": "^14.10.1",
+    "@typescript-eslint/eslint-plugin": "^4.1.1",
+    "@typescript-eslint/parser": "^4.1.1",
+    "eslint": "^7.9.0",
+    "tap": "^1.0.10",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  }
+}
