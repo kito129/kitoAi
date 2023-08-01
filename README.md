@@ -1,5 +1,7 @@
 # kito.ai
 
+[Changelog](https://github.com/kito129/kitoAi/blob/main/changelog.md)
+
 
 ## Postreggres Installation
 
