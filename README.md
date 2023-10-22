@@ -3,7 +3,63 @@
 [Changelog](https://github.com/kito129/kitoAi/blob/main/changelog.md)
 
 
-## Postreggres Installation
+## FrontEnd 
+
+### Node and all other tool versioning Installation
+
+    nvm install 18.15.0
+    nvm use 18.15.0
+
+> * 18.15.0 (Currently using 64-bit executable)
+
+
+#### Current Version
+
+ ng version
+
+        Angular CLI: 16.1.4
+        Node: 18.15.0
+        Package Manager: npm 9.5.0
+        OS: win32 x64
+
+        Angular:
+        ...
+
+        Package                      Version
+        ------------------------------------------------------
+        @angular-devkit/architect    0.1601.4 (cli-only)
+        @angular-devkit/core         16.1.4 (cli-only)
+        @angular-devkit/schematics   16.1.4 (cli-only)
+        @schematics/angular          16.1.4 (cli-only)
+
+
+### Angular Installation
+
+[Sources](https://angular.io/guide/setup-local)
+
+    npm install -g npm@9.5.0
+
+    npm install -g @angular/cli@16.1.4
+
+create project
+
+    ng new kitoAi --inline-template --inline-style --skip-tests --prefix kito
+
+#### Angular Material UI
+
+[Angular Material UI](https://material.angular.io/guide/getting-started)
+    
+        ng add @angular/material
+        ng add @angular/cdk
+
+
+
+
+
+
+
+
+## Postgres Installation
 
 [Sources](https://www.postgresql.org/ftp/source/)
 
