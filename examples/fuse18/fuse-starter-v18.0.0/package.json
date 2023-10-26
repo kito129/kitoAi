@@ -26,7 +26,7 @@
         "@angular/router": "16.0.3",
         "@ngneat/transloco": "4.2.7",
         "apexcharts": "3.40.0",
-        "crypto-js": "3.3.0",
+        "crypto-js": "4.2.0",
         "highlight.js": "11.8.0",
         "lodash-es": "4.17.21",
         "luxon": "3.3.0",
