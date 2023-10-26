@@ -1,13 +1,16 @@
 # changelog
 
-<<<<<<< HEAD
-## [v0.0.2] - 2023/10/26
+## [v0.0.3] - 2023/10/26
 
 - Fuse project understanding
 - Refactoring to boilerplate
 
-=======
->>>>>>> 99f4e008db0d427df79869c4e23b164bdc0574e7
+/examples/angular16-fuse18-boilerplate
+
+- start to remove all the unnecessary files and features
+- refactor the project to be a boilerplate for future projects
+- file structure from Biondi and BfPlatform
+
 ## [v0.0.2] - 2023/10/22
 
 - Restart the project
