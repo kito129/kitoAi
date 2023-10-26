@@ -2,6 +2,10 @@
 
 [Changelog](https://github.com/kito129/kitoAi/blob/main/changelog.md)
 
+# Abstract
+
+[Technology](./design/technology.md)
+
 
 ## FrontEnd 
 
