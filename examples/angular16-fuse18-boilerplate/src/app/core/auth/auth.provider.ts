@@ -3,8 +3,7 @@ import { ENVIRONMENT_INITIALIZER, EnvironmentProviders, inject, Provider } from 
 import { authInterceptor } from 'app/core/auth/auth.interceptor';
 import { AuthService } from 'app/core/auth/auth.service';
 
-export const provideAuth = (): Array<Provider | EnvironmentProviders> =>
-{
+export const provideAuth = (): Array<Provider | EnvironmentProviders> => {
     return [
         provideHttpClient(withInterceptors([authInterceptor])),
         {

@@ -8,8 +8,7 @@ export class IconsService
     /**
      * Constructor
      */
-    constructor()
-    {
+    constructor() {
         const domSanitizer = inject(DomSanitizer);
         const matIconRegistry = inject(MatIconRegistry);
 

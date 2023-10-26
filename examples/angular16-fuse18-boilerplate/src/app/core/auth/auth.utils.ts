@@ -5,14 +5,12 @@
 // https://github.com/auth0/angular2-jwt
 // -----------------------------------------------------------------------------------------------------
 
-export class AuthUtils
-{
+export class AuthUtils {
     /**
      * Constructor
      */
     constructor()
-    {
-    }
+    {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -24,11 +22,9 @@ export class AuthUtils
      * @param token
      * @param offsetSeconds
      */
-    static isTokenExpired(token: string, offsetSeconds?: number): boolean
-    {
+    static isTokenExpired(token: string, offsetSeconds?: number): boolean {
         // Return if there is no token
-        if ( !token || token === '' )
-        {
+        if ( !token || token === '' ) {
             return true;
         }
 
@@ -37,8 +33,7 @@ export class AuthUtils
 
         offsetSeconds = offsetSeconds || 0;
 
-        if ( date === null )
-        {
+        if ( date === null ) {
             return true;
         }
 
@@ -57,15 +52,13 @@ export class AuthUtils
      * @param str
      * @private
      */
-    private static _b64decode(str: string): string
-    {
+    private static _b64decode(str: string): string {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
         let output = '';
 
         str = String(str).replace(/=+$/, '');
 
-        if ( str.length % 4 === 1 )
-        {
+        if ( str.length % 4 === 1 ) {
             throw new Error(
                 '\'atob\' failed: The string to be decoded is not correctly encoded.',
             );
@@ -103,8 +96,7 @@ export class AuthUtils
      * @param str
      * @private
      */
-    private static _b64DecodeUnicode(str: any): string
-    {
+    private static _b64DecodeUnicode(str: any): string {
         return decodeURIComponent(
             Array.prototype.map
                 .call(this._b64decode(str), (c: any) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
@@ -118,8 +110,7 @@ export class AuthUtils
      * @param str
      * @private
      */
-    private static _urlBase64Decode(str: string): string
-    {
+    private static _urlBase64Decode(str: string): string {
         let output = str.replace(/-/g, '+').replace(/_/g, '/');
         switch ( output.length % 4 )
         {
@@ -151,8 +142,7 @@ export class AuthUtils
      * @param token
      * @private
      */
-    private static _decodeToken(token: string): any
-    {
+    private static _decodeToken(token: string): any {
         // Return if there is no token
         if ( !token )
         {
@@ -184,8 +174,7 @@ export class AuthUtils
      * @param token
      * @private
      */
-    private static _getTokenExpirationDate(token: string): Date | null
-    {
+    private static _getTokenExpirationDate(token: string): Date | null {
         // Get the decoded token
         const decodedToken = this._decodeToken(token);
 

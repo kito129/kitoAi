@@ -10,8 +10,7 @@ export class TranslocoHttpLoader implements TranslocoLoader
      * Constructor
      */
     constructor(
-        private _httpClient: HttpClient)
-    {
+        private _httpClient: HttpClient) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -23,8 +22,7 @@ export class TranslocoHttpLoader implements TranslocoLoader
      *
      * @param lang
      */
-    getTranslation(lang: string): Observable<Translation>
-    {
+    getTranslation(lang: string): Observable<Translation> {
         return this._httpClient.get<Translation>(`./assets/i18n/${lang}.json`);
     }
 }

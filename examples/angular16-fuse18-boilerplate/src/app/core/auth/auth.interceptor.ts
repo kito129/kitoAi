@@ -10,8 +10,7 @@ import { catchError, Observable, throwError } from 'rxjs';
  * @param req
  * @param next
  */
-export const authInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> =>
-{
+export const authInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
     const authService = inject(AuthService);
 
     // Clone the request object
@@ -25,8 +24,7 @@ export const authInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn):
     // for the protected API routes which our response interceptor will
     // catch and delete the access token from the local storage while logging
     // the user out from the app.
-    if ( authService.accessToken && !AuthUtils.isTokenExpired(authService.accessToken) )
-    {
+    if ( authService.accessToken && !AuthUtils.isTokenExpired(authService.accessToken) ) {
         newReq = req.clone({
             headers: req.headers.set('Authorization', 'Bearer ' + authService.accessToken),
         });
@@ -34,11 +32,9 @@ export const authInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn):
 
     // Response
     return next(newReq).pipe(
-        catchError((error) =>
-        {
+        catchError((error) => {
             // Catch "401 Unauthorized" responses
-            if ( error instanceof HttpErrorResponse && error.status === 401 )
-            {
+            if ( error instanceof HttpErrorResponse && error.status === 401 ) {
                 // Sign out
                 authService.signOut();
 

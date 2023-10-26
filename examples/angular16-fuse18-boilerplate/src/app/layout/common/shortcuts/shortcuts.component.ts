@@ -10,7 +10,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { ShortcutsService } from 'app/layout/common/shortcuts/shortcuts.service';
 import { Shortcut } from 'app/layout/common/shortcuts/shortcuts.types';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -29,7 +28,6 @@ export class ShortcutsComponent implements OnInit, OnDestroy
     @ViewChild('shortcutsPanel') private _shortcutsPanel: TemplateRef<any>;
 
     mode: 'view' | 'modify' | 'add' | 'edit' = 'view';
-    shortcutForm: UntypedFormGroup;
     shortcuts: Shortcut[];
     private _overlayRef: OverlayRef;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -40,12 +38,9 @@ export class ShortcutsComponent implements OnInit, OnDestroy
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: UntypedFormBuilder,
-        private _shortcutsService: ShortcutsService,
         private _overlay: Overlay,
-        private _viewContainerRef: ViewContainerRef,
-    )
-    {
-    }
+        private _viewContainerRef: ViewContainerRef,)
+    {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -54,29 +49,28 @@ export class ShortcutsComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
-        // Initialize the form
-        this.shortcutForm = this._formBuilder.group({
-            id         : [null],
-            label      : ['', Validators.required],
-            description: [''],
-            icon       : ['', Validators.required],
-            link       : ['', Validators.required],
-            useRouter  : ['', Validators.required],
-        });
+    ngOnInit(): void {
 
-        // Get the shortcuts
-        this._shortcutsService.shortcuts$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((shortcuts: Shortcut[]) =>
-            {
-                // Load the shortcuts
-                this.shortcuts = shortcuts;
 
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
+				// shortcuts examples
+        this.shortcuts = [
+					{
+						id         : 'a1ae91d3-e2cb-459b-9be9-a184694f548b',
+						label      : 'Changelog',
+						description: 'List of changes',
+						icon       : 'heroicons_outline:clipboard-document-list',
+						link       : '/docs/changelog',
+						useRouter  : true,
+					},
+					{
+						id         : '989ce876-c177-4d71-a749-1953c477f825',
+						label      : 'Documentation',
+						description: 'kito.ai docs',
+						icon       : 'heroicons_outline:book-open',
+						link       : '/docs/readme',
+						useRouter  : true,
+					},
+				]
     }
 
     /**
@@ -131,76 +125,10 @@ export class ShortcutsComponent implements OnInit, OnDestroy
         this._overlayRef.detach();
     }
 
-    /**
-     * Change the mode
-     */
-    changeMode(mode: 'view' | 'modify' | 'add' | 'edit'): void
-    {
-        // Change the mode
-        this.mode = mode;
-    }
-
-    /**
-     * Prepare for a new shortcut
-     */
-    newShortcut(): void
-    {
-        // Reset the form
-        this.shortcutForm.reset();
-
-        // Enter the add mode
-        this.mode = 'add';
-    }
-
-    /**
-     * Edit a shortcut
-     */
-    editShortcut(shortcut: Shortcut): void
-    {
-        // Reset the form with the shortcut
-        this.shortcutForm.reset(shortcut);
-
-        // Enter the edit mode
-        this.mode = 'edit';
-    }
 
     /**
      * Save shortcut
      */
-    save(): void
-    {
-        // Get the data from the form
-        const shortcut = this.shortcutForm.value;
-
-        // If there is an id, update it...
-        if ( shortcut.id )
-        {
-            this._shortcutsService.update(shortcut.id, shortcut).subscribe();
-        }
-        // Otherwise, create a new shortcut...
-        else
-        {
-            this._shortcutsService.create(shortcut).subscribe();
-        }
-
-        // Go back the modify mode
-        this.mode = 'modify';
-    }
-
-    /**
-     * Delete shortcut
-     */
-    delete(): void
-    {
-        // Get the data from the form
-        const shortcut = this.shortcutForm.value;
-
-        // Delete
-        this._shortcutsService.delete(shortcut.id).subscribe();
-
-        // Go back the modify mode
-        this.mode = 'modify';
-    }
 
     /**
      * Track by function for ngFor loops

@@ -11,13 +11,16 @@
     [opened]="!isScreenSmall">
     <!-- Navigation header hook -->
     <ng-container fuseVerticalNavigationContentHeader>
-        <!-- Logo -->
+
+				<h1  class="flex items-center justify-center h-20 mt-3 mb-4">logo goes here</h1>
+        <!-- Logo
         <div class="flex items-center justify-center h-20 mt-3 mb-4">
             <img
                 class="w-10"
                 src="assets/images/logo/logo.svg"
                 alt="Logo image">
         </div>
+        -->
     </ng-container>
 </fuse-vertical-navigation>
 
@@ -34,18 +37,21 @@
         </button>
         <!-- Components -->
         <div class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2">
-            <languages></languages>
+					<!--
+
             <fuse-fullscreen class="hidden md:block"></fuse-fullscreen>
-            <search [appearance]="'bar'"></search>
-            <shortcuts></shortcuts>
-            <messages></messages>
+             <messages></messages>
             <notifications></notifications>
-            <button
+             <button
                 class="lg:hidden"
                 mat-icon-button
                 (click)="quickChat.toggle()">
                 <mat-icon [svgIcon]="'heroicons_outline:chat-bubble-left-right'"></mat-icon>
             </button>
+            -->
+						<languages></languages>
+            <search [appearance]="'basic'"></search>
+            <shortcuts></shortcuts>
             <user></user>
         </div>
     </div>
@@ -59,10 +65,11 @@
 
     <!-- Footer -->
     <div class="relative flex flex-0 items-center justify-start w-full h-14 px-4 md:px-6 z-49 border-t bg-card dark:bg-transparent print:hidden">
-        <span class="font-medium text-secondary">Fuse &copy; {{currentYear}}</span>
+        <span class="font-medium text-secondary">Handcrafted with love by kito129, kito.ai &copy; {{currentYear}}</span>
     </div>
 
 </div>
 
-<!-- Quick chat -->
+<!-- Quick chat
 <quick-chat #quickChat="quickChat"></quick-chat>
+-->
