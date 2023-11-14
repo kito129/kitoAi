@@ -1,4 +1,8 @@
 # kito.ai
+    author: kito129
+    date: 2023/08/01
+    last update: 2023/10/26
+    version: v2023.0.2
 
 [Changelog](https://github.com/kito129/kitoAi/blob/main/changelog.md)
 
