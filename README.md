@@ -15,19 +15,19 @@
 
 ### Node and all other tool versioning Installation
 
-    nvm install 18.15.0
-    nvm use 18.15.0
+    nvm install 20.9.0
+    nvm use 20.9.0
 
-> * 18.15.0 (Currently using 64-bit executable)
+> * 20.9.0 (Currently using 64-bit executable)
 
 
 #### Current Version
 
  ng version
 
-        Angular CLI: 16.1.4
-        Node: 18.15.0
-        Package Manager: npm 9.5.0
+        Angular CLI: 17.0.0
+        Node: 20.9.0
+        Package Manager: npm 10.1.0
         OS: win32 x64
 
         Angular:
@@ -35,19 +35,18 @@
 
         Package                      Version
         ------------------------------------------------------
-        @angular-devkit/architect    0.1601.4 (cli-only)
-        @angular-devkit/core         16.1.4 (cli-only)
-        @angular-devkit/schematics   16.1.4 (cli-only)
-        @schematics/angular          16.1.4 (cli-only)
+        @angular-devkit/architect    0.1700.0 (cli-only)
+        @angular-devkit/core         17.0.0 (cli-only)
+        @angular-devkit/schematics   17.0.0 (cli-only)
+        @schematics/angular          17.0.0 (cli-only)
 
 
 ### Angular Installation
 
 [Sources](https://angular.io/guide/setup-local)
 
-    npm install -g npm@9.5.0
 
-    npm install -g @angular/cli@16.1.4
+    npm install -g @angular/cli
 
 create project
 
@@ -62,6 +61,8 @@ create project
 
 
 
+
+set NODE_OPTIONS=--max_old_space_size=6096
 
 
 
