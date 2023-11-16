@@ -1,16 +1,16 @@
 /// <reference path="../pb_data/types.d.ts" />
 migrate((db) => {
   const collection = new Collection({
-    "id": "gaact4zuieun48g",
-    "created": "2023-11-15 22:22:48.716Z",
-    "updated": "2023-11-15 22:22:48.716Z",
-    "name": "projects",
+    "id": "rax5w96dfxom4j5",
+    "created": "2023-11-16 14:20:12.726Z",
+    "updated": "2023-11-16 14:20:12.726Z",
+    "name": "projcts",
     "type": "base",
     "system": false,
     "schema": [
       {
         "system": false,
-        "id": "g1ftub0l",
+        "id": "5caocabo",
         "name": "name",
         "type": "text",
         "required": false,
@@ -24,7 +24,7 @@ migrate((db) => {
       },
       {
         "system": false,
-        "id": "zwxpn5dp",
+        "id": "iuuzekmz",
         "name": "seq",
         "type": "number",
         "required": false,
@@ -38,20 +38,20 @@ migrate((db) => {
       },
       {
         "system": false,
-        "id": "onbc4jvr",
-        "name": "repo",
-        "type": "url",
+        "id": "vwctjawt",
+        "name": "startDate",
+        "type": "date",
         "required": false,
         "presentable": false,
         "unique": false,
         "options": {
-          "exceptDomains": null,
-          "onlyDomains": null
+          "min": "",
+          "max": ""
         }
       },
       {
         "system": false,
-        "id": "aiaqu6br",
+        "id": "hbtlwgga",
         "name": "active",
         "type": "bool",
         "required": false,
@@ -61,15 +61,25 @@ migrate((db) => {
       },
       {
         "system": false,
-        "id": "jkivwup9",
-        "name": "startDate",
-        "type": "date",
+        "id": "zswg5lgo",
+        "name": "public",
+        "type": "bool",
+        "required": false,
+        "presentable": false,
+        "unique": false,
+        "options": {}
+      },
+      {
+        "system": false,
+        "id": "wfb0w9th",
+        "name": "repository",
+        "type": "url",
         "required": false,
         "presentable": false,
         "unique": false,
         "options": {
-          "min": "",
-          "max": ""
+          "exceptDomains": null,
+          "onlyDomains": null
         }
       }
     ],
@@ -85,7 +95,7 @@ migrate((db) => {
   return Dao(db).saveCollection(collection);
 }, (db) => {
   const dao = new Dao(db);
-  const collection = dao.findCollectionByNameOrId("gaact4zuieun48g");
+  const collection = dao.findCollectionByNameOrId("rax5w96dfxom4j5");
 
   return dao.deleteCollection(collection);
 })

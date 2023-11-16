@@ -1,16 +1,16 @@
 /// <reference path="../pb_data/types.d.ts" />
 migrate((db) => {
   const collection = new Collection({
-    "id": "miuyn2pyj7m2nic",
-    "created": "2023-11-15 22:40:59.937Z",
-    "updated": "2023-11-15 22:40:59.937Z",
+    "id": "9g9d03u4wwvw2f0",
+    "created": "2023-11-16 14:20:37.470Z",
+    "updated": "2023-11-16 14:20:37.470Z",
     "name": "home",
     "type": "base",
     "system": false,
     "schema": [
       {
         "system": false,
-        "id": "ymye2485",
+        "id": "va64j6wd",
         "name": "name",
         "type": "text",
         "required": false,
@@ -24,7 +24,17 @@ migrate((db) => {
       },
       {
         "system": false,
-        "id": "cvdn7q8t",
+        "id": "f63np7cv",
+        "name": "public",
+        "type": "bool",
+        "required": false,
+        "presentable": false,
+        "unique": false,
+        "options": {}
+      },
+      {
+        "system": false,
+        "id": "wx6dlvnv",
         "name": "value",
         "type": "number",
         "required": false,
@@ -35,16 +45,6 @@ migrate((db) => {
           "max": null,
           "noDecimal": false
         }
-      },
-      {
-        "system": false,
-        "id": "tpujbc4u",
-        "name": "public",
-        "type": "bool",
-        "required": false,
-        "presentable": false,
-        "unique": false,
-        "options": {}
       }
     ],
     "indexes": [],
@@ -59,7 +59,7 @@ migrate((db) => {
   return Dao(db).saveCollection(collection);
 }, (db) => {
   const dao = new Dao(db);
-  const collection = dao.findCollectionByNameOrId("miuyn2pyj7m2nic");
+  const collection = dao.findCollectionByNameOrId("9g9d03u4wwvw2f0");
 
   return dao.deleteCollection(collection);
 })

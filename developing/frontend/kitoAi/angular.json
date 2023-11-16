@@ -40,7 +40,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/kito-ai",
+            "outputPath": "../backend/public",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -61,25 +61,31 @@
           },
           "configurations": {
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
-              "outputHashing": "all"
-            },
-            "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
-            }
+				"fileReplacements": [
+					{
+						"replace": "src/environments/environment.ts",
+						"with": "src/environments/environment.prod.ts"
+					}
+				],
+				"budgets": [
+				{
+				  "type": "initial",
+				  "maximumWarning": "500kb",
+				  "maximumError": "1mb"
+				},
+				{
+				  "type": "anyComponentStyle",
+				  "maximumWarning": "2kb",
+				  "maximumError": "4kb"
+				}
+				],
+			  "outputHashing": "all"
+				},
+			"development": {
+			  "optimization": false,
+			  "extractLicenses": false,
+			  "sourceMap": true
+			}
           },
           "defaultConfiguration": "production"
         },
