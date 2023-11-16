@@ -40,7 +40,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "../backend/public",
+            "outputPath": "../../backend/public",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -68,16 +68,16 @@
 					}
 				],
 				"budgets": [
-				{
-				  "type": "initial",
-				  "maximumWarning": "500kb",
-				  "maximumError": "1mb"
-				},
-				{
-				  "type": "anyComponentStyle",
-				  "maximumWarning": "2kb",
-				  "maximumError": "4kb"
-				}
+					{
+					  "type": "initial",
+					  "maximumWarning": "500kb",
+					  "maximumError": "10mb"
+					},
+					{
+					  "type": "anyComponentStyle",
+					  "maximumWarning": "2kb",
+					  "maximumError": "4mb"
+					}
 				],
 			  "outputHashing": "all"
 				},

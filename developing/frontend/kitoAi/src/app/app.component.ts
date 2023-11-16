@@ -45,6 +45,7 @@ import {MatButtonModule} from "@angular/material/button";
 					  <mat-nav-list>
 						  <a mat-list-item routerLink="/">Home</a>
 						  <a mat-list-item routerLink="/projects">Projects</a>
+						  <a mat-list-item routerLink="/login">Login</a>
 					  </mat-nav-list>
 				  </mat-sidenav>
 				  <!-- Main Content Area -->
