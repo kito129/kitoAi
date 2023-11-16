@@ -27,8 +27,8 @@ import {Observable} from "rxjs";
 export class LoginComponent implements OnInit{
 
 	defUser: LoginData = {
-		identity: "marco",
-		password: "65255"
+		identity: "info@kito.ai",
+		password: "842639000!"
 	}
 
 

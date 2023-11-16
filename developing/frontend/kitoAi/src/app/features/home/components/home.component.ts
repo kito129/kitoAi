@@ -15,9 +15,6 @@ class User {
       home works!
     </p>
 
-	<code>
-		{{user$ | async | json}}
-	</code>
   `,
   styles: ``
 })

@@ -4,15 +4,18 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, map, Observable, of, throwError} from "rxjs";
 import {UserResponse} from "../model/user";
 import {ListAuthMethods, ServerResponse} from "../model/serverResponse";
+import {Router} from "@angular/router";
+import { Utils } from '../../shared/utils';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
+	utils = new Utils()
 	prefix = environment.apiUrl
 
-	constructor(private http: HttpClient) { }
+	constructor(private http: HttpClient, private router: Router) { }
 
 	authWithPassword(identity: string, password: string): Observable<UserResponse | ServerResponse> {
 		return this.http.post<UserResponse | ServerResponse>(`${this.prefix}/api/collections/users/auth-with-password`, { identity, password })
@@ -21,37 +24,44 @@ export class AuthenticationService {
 					if (data.hasOwnProperty('code')) {
 						return data as ServerResponse;
 					} else {
+						const auth = data as UserResponse;
+						console.log(auth)
+						AuthenticationService.setSession(auth.token);
+						if (localStorage.getItem('isLoggedin')) {
+							this.router.navigate(['/home']);
+						} else if((data as ServerResponse).code===401) {
+							console.log('unauthorized')
+						}
 						return data as UserResponse;
 					}
 				}),
-				catchError(this.handleError)
+				catchError(this.utils.handleError)
 			);
 	}
 
-	getListAuthMethods(): Observable<ListAuthMethods> {
-		return this.http.get<ListAuthMethods>(`${this.prefix}/api/collections/users/auth-methods`)
+	private static setSession(authResult) {
+		localStorage.setItem('token', authResult);
+		localStorage.setItem('isLogged', 'true');
+	}
+	public getToken(): string {
+		return localStorage.getItem('token');
 	}
 
-	private handleError(error: HttpErrorResponse): Observable<never> {
-		let errorMessage = 'An unknown error occurred';
+	public isLogged(): Observable<boolean> {
+		return of(localStorage.getItem('isLogged') === 'true' && localStorage.getItem('token') !== null)
+	}
 
-		if (error.error instanceof ErrorEvent) {
-			// Client-side errors
-			errorMessage = `Error: ${error.error.message}`;
-		} else {
-			// Server-side errors
-			if (error.status === 404) {
-				errorMessage = 'Resource not found. Please check the URL.';
-			} else {
-				errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-			}
+	logout() {
+		localStorage.removeItem('token');
+		localStorage.removeItem('isLogged');
+		if (!localStorage.getItem('isLogged')) {
+			this.router.navigate(['/auth/login']);
 		}
+	}
 
-		// You can log the error or display it in a user-friendly way
-		console.error(errorMessage);
 
-		// Return an observable with a user-facing error message
-		return throwError(errorMessage);
+	getListAuthMethods(): Observable<ListAuthMethods> {
+		return this.http.get<ListAuthMethods>(`${this.prefix}/api/collections/users/auth-methods`)
 	}
 
 }

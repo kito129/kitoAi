@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {MatToolbarModule} from "@angular/material/toolbar";
@@ -6,6 +6,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {MatButtonModule} from "@angular/material/button";
+import {AuthenticationService} from "./core/auth/authentication.service";
 
 @Component({
   selector: 'kito-root',
@@ -41,11 +42,15 @@ import {MatButtonModule} from "@angular/material/button";
 
 		  <div class="container">
 			  <mat-sidenav-container class="sidenav-container">
-				  <mat-sidenav #sidenav mode="side">
+				  <mat-sidenav #sidenav mode="push">
 					  <mat-nav-list>
-						  <a mat-list-item routerLink="/">Home</a>
-						  <a mat-list-item routerLink="/projects">Projects</a>
-						  <a mat-list-item routerLink="/login">Login</a>
+						  <a *ngIf="!(authServices.isLogged() | async), else logged" mat-list-item routerLink="/auth/login">Login</a>
+						  <ng-template #logged>
+							  <a mat-list-item routerLink="/">Home</a>
+							  <a mat-list-item routerLink="/projects">Projects</a>
+							  <mat-divider></mat-divider>
+							  <a  mat-list-item (click)="authServices.logout()">LogOut</a>
+						  </ng-template>
 					  </mat-nav-list>
 				  </mat-sidenav>
 				  <!-- Main Content Area -->
@@ -88,6 +93,11 @@ import {MatButtonModule} from "@angular/material/button";
 	}
   `,
 })
-export class AppComponent {
+export class AppComponent implements  OnInit{
   title = 'kitoAi';
+
+  constructor(public authServices: AuthenticationService) {}
+
+	ngOnInit() {
+	}
 }
