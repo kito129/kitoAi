@@ -1,5 +1,13 @@
 # changelog
 
+## [v0.0.4] - 2023/11/16
+
+- try for layout but not like that
+- authGuard fix
+- interceptor for error not works in this way
+- router and children with aith guard is correct the prev way
+- create layout features with all components, under construction
+
 ## [v0.0.3] - 2023/10/26
 
 - Fuse project understanding

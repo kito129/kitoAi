@@ -26,8 +26,7 @@ export class HomeService {
 					} else {
 						return data as Array<Home>;
 					}
-				}),
-				catchError(this.utils.handleError)
+				})
 			);
 	}
 

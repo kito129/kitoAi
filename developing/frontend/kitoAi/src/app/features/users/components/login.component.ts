@@ -6,20 +6,50 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {ListAuthMethods, ServerResponse} from "../../../core/model/serverResponse";
 import {Observable} from "rxjs";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'kito-login',
   standalone: true,
-	imports: [CommonModule, MatButtonModule, MatIconModule],
+	imports: [CommonModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule],
   template: `
 
-		<button mat-icon-button (click)="loginWithPassword(this.defUser)">
-			<mat-icon>login</mat-icon>
-		</button>
+	  <form #f="ngForm" (submit)="login(f)">
+		  <mat-form-field appearance="fill" [ngClass]="{'error': f.invalid && f.dirty}">
+			  <mat-label>Input</mat-label>
+			  <input
+				  matInput
+				  type="text"
+				  placeholder="Identity"
+				  [ngModel]="defUser.identity"
+				  name="identity"
+				  #identityRef="ngModel"
+				  required
+			  />
+			  <input
+				  matInput
+				  type="password"
+				  placeholder="Your password"
+				  [ngModel]="defUser.password"
+				  name="pass"
+				  required
+			  />
+			  <button
+				  mat-icon-button
+				  type="submit"
+				  color="primary"
+				  [disabled]="f.invalid"
+			  >
+				  Login
+			  </button>
+		  </mat-form-field>
+	  </form>
 
-		<pre *ngIf="userResponse$ | async">
-			{{userResponse$ | async | json}}
-		</pre>
+
+	  {{userResponse$ | async | json}}
+
 
   `,
   styles: ``
@@ -27,18 +57,24 @@ import {Observable} from "rxjs";
 export class LoginComponent implements OnInit{
 
 	defUser: LoginData = {
-		identity: "info@kito.ai",
-		password: "842639000!"
+		identity: "",
+		password: ""
 	}
 
-
 	listAuthMethods$: Observable<ListAuthMethods> = null
-	userResponse$: Observable<UserResponse | ServerResponse> = null
+	userResponse$: Observable<UserResponse | ServerResponse>
 
 	constructor(private authServices: AuthenticationService) {	}
 
 	ngOnInit(): void {
 		this.listAuthMethods$= this.authServices.getListAuthMethods()
+	}
+
+	login(f) {
+		this.loginWithPassword({
+			identity: f.value.identity,
+			password: f.value.pass
+		})
 	}
 
 	loginWithPassword(loginData: LoginData) {

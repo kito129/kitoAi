@@ -46,7 +46,7 @@ import {AuthenticationService} from "./core/auth/authentication.service";
 					  <mat-nav-list>
 						  <a *ngIf="!(authServices.isLogged() | async), else logged" mat-list-item routerLink="/auth/login">Login</a>
 						  <ng-template #logged>
-							  <a mat-list-item routerLink="/">Home</a>
+							  <a mat-list-item routerLink="/home">Home</a>
 							  <a mat-list-item routerLink="/projects">Projects</a>
 							  <mat-divider></mat-divider>
 							  <a  mat-list-item (click)="authServices.logout()">LogOut</a>
@@ -62,7 +62,11 @@ import {AuthenticationService} from "./core/auth/authentication.service";
 
 		  <mat-toolbar color="primary" class="footer">
 			  <!-- Footer Content -->
-			  <!-- Add your footer content here -->
+			  <p class="text-center text-md-left">Copyright © {{date.getFullYear()}}kito.ai. All rights reserved</p>
+			  <p class="text-center center">v0.0.2</p>
+			  <p class="text-center center">Build #: 1</p>
+			  <p class="text-center center">Build: 11-16-2023</p>
+			  <p class="text-center text-md-left mb-0 ">Handcrafted With <i class="mb-1 text-primary ml-1 icon-small feather icon-heart"></i></p>
 		  </mat-toolbar>
 	  </div>
   `,  styles: `
@@ -83,9 +87,8 @@ import {AuthenticationService} from "./core/auth/authentication.service";
 	}
 
 	.footer {
-	  position: fixed;
-	  bottom: 0;
 	  width: 100%;
+	  margin-top: auto;
 	}
 
 	.spacer {
@@ -95,6 +98,8 @@ import {AuthenticationService} from "./core/auth/authentication.service";
 })
 export class AppComponent implements  OnInit{
   title = 'kitoAi';
+
+  date: Date = new Date()
 
   constructor(public authServices: AuthenticationService) {}
 

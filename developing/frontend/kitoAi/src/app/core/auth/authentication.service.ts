@@ -21,21 +21,20 @@ export class AuthenticationService {
 		return this.http.post<UserResponse | ServerResponse>(`${this.prefix}/api/collections/users/auth-with-password`, { identity, password })
 			.pipe(
 				map((data: UserResponse | ServerResponse) => {
+					console.log(data)
 					if (data.hasOwnProperty('code')) {
 						return data as ServerResponse;
 					} else {
 						const auth = data as UserResponse;
-						console.log(auth)
 						AuthenticationService.setSession(auth.token);
-						if (localStorage.getItem('isLoggedin')) {
+						if (localStorage.getItem('isLogged')) {
 							this.router.navigate(['/home']);
 						} else if((data as ServerResponse).code===401) {
 							console.log('unauthorized')
 						}
 						return data as UserResponse;
 					}
-				}),
-				catchError(this.utils.handleError)
+				})
 			);
 	}
 
