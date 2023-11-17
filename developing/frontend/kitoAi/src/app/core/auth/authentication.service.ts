@@ -28,7 +28,7 @@ export class AuthenticationService {
 						const auth = data as UserResponse;
 						AuthenticationService.setSession(auth.token);
 						if (localStorage.getItem('isLogged')) {
-							this.router.navigate(['/home']);
+							// this.router.navigate(['/home']);
 						} else if((data as ServerResponse).code===401) {
 							console.log('unauthorized')
 						}

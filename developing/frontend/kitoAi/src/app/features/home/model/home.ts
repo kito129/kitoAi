@@ -1,8 +1,11 @@
 export interface Home{
-	created?: number
-	updated?: number
-	id: number
-	name: string
-	value: number
-	public: boolean
+	"id": string
+	"collectionId": string
+	"collectionName": string
+	"created": string
+	"updated": string
+	"name": string
+	"public": boolean
+	"value": number
 }
+

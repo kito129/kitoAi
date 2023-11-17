@@ -40,7 +40,7 @@ import {FormsModule} from "@angular/forms";
 				  mat-icon-button
 				  type="submit"
 				  color="primary"
-				  [disabled]="f.invalid"
+
 			  >
 				  Login
 			  </button>
@@ -48,7 +48,9 @@ import {FormsModule} from "@angular/forms";
 	  </form>
 
 
-	  {{userResponse$ | async | json}}
+	  <ng-container *ngIf="userResponse$ | async">
+		  {{userResponse$ | async | json}}
+	  </ng-container>
 
 
   `,
@@ -67,7 +69,7 @@ export class LoginComponent implements OnInit{
 	constructor(private authServices: AuthenticationService) {	}
 
 	ngOnInit(): void {
-		this.listAuthMethods$= this.authServices.getListAuthMethods()
+		// this.listAuthMethods$ = this.authServices.getListAuthMethods()
 	}
 
 	login(f) {

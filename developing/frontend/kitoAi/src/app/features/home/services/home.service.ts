@@ -5,7 +5,7 @@ import {Home} from "../model/home";
 import {environment} from "../../../../../environments/environment";
 import {Utils} from "../../../shared/utils";
 import {UserResponse} from "../../../core/model/user";
-import {ServerResponse} from "../../../core/model/serverResponse";
+import {Pagination, ServerResponse} from "../../../core/model/serverResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +17,14 @@ export class HomeService {
 
   constructor(private http: HttpClient) { }
 
-	getHomeElements(): Observable<ServerResponse | Array<Home>> {
-		return this.http.get<Array<Home>>(`${this.prefix}/api/collections/home/records/`)
+	getHomeElements(): Observable<ServerResponse | Pagination<Home>> {
+		return this.http.get<ServerResponse |Pagination<Home>>(`${this.prefix}/api/collections/home/records`)
 			.pipe(
-				map((data: Array<Home> | ServerResponse) => {
+				map((data: Pagination<Home> | ServerResponse) => {
 					if (data.hasOwnProperty('code')) {
-						throw new Error((data as ServerResponse).message);
+						return data as ServerResponse
 					} else {
-						return data as Array<Home>;
+						return data as Pagination<Home>
 					}
 				})
 			);

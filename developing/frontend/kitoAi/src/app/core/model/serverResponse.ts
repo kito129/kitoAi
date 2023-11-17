@@ -2,10 +2,8 @@ export interface ServerResponse{
 	"code": number
 	"message":string
 	"data": {
-		"identity": {
-			"code": string
-			"message": string
-		}
+		"code?": string
+		"message?": string
 	}
 }
 
@@ -21,4 +19,14 @@ export interface ListAuthMethods {
 		"authUrl": string
 	}]
 }
+
+export interface Pagination<T>{
+	page: number
+	perPage: number
+	totalPages: number
+	totalItems: number
+	items: Array<T>
+}
+
+
 
