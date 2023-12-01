@@ -4,7 +4,7 @@ import {catchError, map, Observable} from "rxjs";
 import {Home} from "../model/home";
 import {environment} from "../../../../../environments/environment";
 import {Utils} from "../../../shared/utils";
-import {UserResponse} from "../../../core/model/user";
+import {UserResponse} from "../../users/model/user";
 import {Pagination, ServerResponse} from "../../../core/model/serverResponse";
 
 @Injectable({

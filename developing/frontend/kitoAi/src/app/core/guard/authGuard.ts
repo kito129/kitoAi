@@ -5,7 +5,7 @@ import {inject} from "@angular/core";
 export const AuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
 	const router = inject(Router);
 	const auth = inject(AuthenticationService);
-	if (auth.isLogged()){
+	if (auth.isLogged$()){
 		return true;
 	}
 	// not logged in so redirect to login page with the return url

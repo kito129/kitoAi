@@ -12,26 +12,27 @@ import EventEmitter from "events";
   standalone: true,
 	imports: [CommonModule, MatDividerModule, MatListModule, MatSidenavModule, RouterLink, RouterOutlet],
   template: `
-	  <div class="container">
-		  <mat-sidenav-container class="sidenav-container">
-			  <mat-sidenav #sidenav mode="push">
-				  <mat-nav-list>
-					  <a *ngIf="!(authServices.isLogged() | async), else logged" mat-list-item routerLink="/auth/login">Login</a>
-					  <ng-template #logged>
-						  <a mat-list-item routerLink="/">Home</a>
-						  <a mat-list-item routerLink="/projects">Projects</a>
-						  <mat-divider></mat-divider>
-						  <a  mat-list-item (click)="authServices.logout()">LogOut</a>
-					  </ng-template>
-				  </mat-nav-list>
-			  </mat-sidenav>
-			  <!-- Main Content Area -->
-			  <mat-sidenav-content>
+      <div class="container">
+          <mat-sidenav-container class="sidenav-container">
+              <mat-sidenav #sidenav mode="push">
+                  <mat-nav-list>
+                      <a *ngIf="!(authServices.isLogged$() | async), else logged" mat-list-item
+                         routerLink="/auth/login">Login</a>
+                      <ng-template #logged>
+                          <a mat-list-item routerLink="/">Home</a>
+                          <a mat-list-item routerLink="/projects">Projects</a>
+                          <mat-divider></mat-divider>
+                          <a mat-list-item (click)="authServices.logout()">LogOut</a>
+                      </ng-template>
+                  </mat-nav-list>
+              </mat-sidenav>
+              <!-- Main Content Area -->
+              <mat-sidenav-content>
 
 
-			  </mat-sidenav-content>
-		  </mat-sidenav-container>
-	  </div>
+              </mat-sidenav-content>
+          </mat-sidenav-container>
+      </div>
   `,
   styles: ``
 })

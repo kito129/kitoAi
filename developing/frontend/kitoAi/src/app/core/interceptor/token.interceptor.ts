@@ -5,17 +5,18 @@ import {AuthenticationService} from "../auth/authentication.service";
 
 export function TokenInterceptor (request: HttpRequest<any>, next: HttpHandlerFn) {
 	const auth = inject(AuthenticationService);
-	console.log('Token Interceptor')
+	// console.log('\n\n --- Token Interceptor ---')
 	let headers: HttpHeaders
 	if(auth.isLogged()){
 		headers = new HttpHeaders({
-			Authorization: `${auth.getToken()}`,
-			'Content-Type': 'application/json',
+			Authorization: `${auth.getSessionToken()}`,
+			'content-Type': 'application/json',
 		});
 	} else {
-		console.log('not logged')
+		console.log('-> Not logged')
 	}
 	const cloneReq = request.clone({headers});
+	console.log(cloneReq)
 	return next(cloneReq)
 }
 

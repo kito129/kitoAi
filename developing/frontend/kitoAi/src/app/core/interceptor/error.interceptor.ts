@@ -8,16 +8,14 @@ import {ServerResponse} from "../model/serverResponse";
 
 export function ErrorInterceptor (request: HttpRequest<any>, next: HttpHandlerFn) {
 	const auth = inject(AuthenticationService);
-	console.log('Error Interceptor')
+	console.log('\n\n --- Error Interceptor ---')
 	return next(request).pipe(catchError((err) => {
-
-
-		console.log('catch error')
+		console.log('-> Error')
 		console.log(err.status)
 		if ([401, 403].includes(err.status)) {
 			// auto logout if 401 or 403 response returned from api
 			console.log('Not logged, token expired')
-			auth.logout();
+			// auth.logout();
 		} else if([400].includes(err.status)) {
 			// auto logout if 401 or 403 response returned from api
 			console.log('Auth Failed')

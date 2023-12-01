@@ -23,52 +23,54 @@ import {AuthenticationService} from "./core/auth/authentication.service";
 		MatButtonModule
 	],
   template: `
-	  <div class="wrapper">
-		  <mat-toolbar color="primary">
+      <div class="wrapper">
+          <mat-toolbar color="primary">
 
-			  <button mat-icon-button (click)="sidenav.toggle()">
-				  <mat-icon>menu</mat-icon>
-			  </button>
+              <button mat-icon-button (click)="sidenav.toggle()">
+                  <mat-icon>menu</mat-icon>
+              </button>
 
-			  <h2>{{title}}</h2>
-			  <mat-icon>donut_small</mat-icon>
+              <h2>{{title}}</h2>
+              <mat-icon>donut_small</mat-icon>
 
-			  <span  class="flex"></span>
-			  <button mat-icon-button (click)="sidenav.toggle()">
-				  <mat-icon>user</mat-icon>
-			  </button>
+              <span class="flex"></span>
+              <button mat-icon-button (click)="sidenav.toggle()">
+                  <mat-icon>user</mat-icon>
+              </button>
 
-		  </mat-toolbar>
+          </mat-toolbar>
 
-		  <div class="container">
-			  <mat-sidenav-container class="sidenav-container">
-				  <mat-sidenav #sidenav mode="push">
-					  <mat-nav-list>
-						  <a *ngIf="!(authServices.isLogged() | async), else logged" mat-list-item routerLink="/auth/login">Login</a>
-						  <ng-template #logged>
-							  <a mat-list-item routerLink="/home">Home</a>
-							  <a mat-list-item routerLink="/projects">Projects</a>
-							  <mat-divider></mat-divider>
-							  <a  mat-list-item (click)="authServices.logout()">LogOut</a>
-						  </ng-template>
-					  </mat-nav-list>
-				  </mat-sidenav>
-				  <!-- Main Content Area -->
-				  <mat-sidenav-content>
-					  <router-outlet></router-outlet>
-				  </mat-sidenav-content>
-			  </mat-sidenav-container>
-		  </div>
+          <div class="container">
+              <mat-sidenav-container class="sidenav-container">
+                  <mat-sidenav #sidenav mode="push">
+                      <mat-nav-list>
+                          <a *ngIf="!(authServices.isLogged$() | async), else logged" mat-list-item
+                             routerLink="/auth/login">Login</a>
+                          <ng-template #logged>
+                              <a mat-list-item routerLink="/home">Home</a>
+                              <a mat-list-item routerLink="/projects">Projects</a>
+                              <mat-divider></mat-divider>
+                              <a mat-list-item (click)="authServices.logout()">LogOut</a>
+                          </ng-template>
+                      </mat-nav-list>
+                  </mat-sidenav>
+                  <!-- Main Content Area -->
+                  <mat-sidenav-content>
+                      <router-outlet></router-outlet>
+                  </mat-sidenav-content>
+              </mat-sidenav-container>
+          </div>
 
-		  <mat-toolbar color="primary" class="footer">
-			  <!-- Footer Content -->
-			  <p class="text-center text-md-left">Copyright © {{date.getFullYear()}}kito.ai. All rights reserved</p>
-			  <p class="text-center center">v0.0.2</p>
-			  <p class="text-center center">Build #: 1</p>
-			  <p class="text-center center">Build: 11-16-2023</p>
-			  <p class="text-center text-md-left mb-0 ">Handcrafted With <i class="mb-1 text-primary ml-1 icon-small feather icon-heart"></i></p>
-		  </mat-toolbar>
-	  </div>
+          <mat-toolbar color="primary" class="footer">
+              <!-- Footer Content -->
+              <p class="text-center text-md-left">Copyright © {{date.getFullYear()}}kito.ai. All rights reserved</p>
+              <p class="text-center center">v0.0.2</p>
+              <p class="text-center center">Build #: 1</p>
+              <p class="text-center center">Build: 11-16-2023</p>
+              <p class="text-center text-md-left mb-0 ">Handcrafted With <i
+                      class="mb-1 text-primary ml-1 icon-small feather icon-heart"></i></p>
+          </mat-toolbar>
+      </div>
   `,  styles: `
 
 	.wrapper {
