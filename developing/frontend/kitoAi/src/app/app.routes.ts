@@ -9,11 +9,14 @@ import {ProjectsComponent} from "./features/projects/components/projects.compone
 import {PROJECTS_ROUTES} from "./features/projects/projects.routes";
 
 const projectsRoutes = () => import('./features/projects/projects.routes').then(x => x.PROJECTS_ROUTES);
+const publicRoutes = () => import('./features/public/public.routes').then(x => x.PUBLIC_ROUTES);
+
 
 export const APP_ROUTES: Routes = [
 	{ path: 'auth/login', component: LoginComponent },
 	{ path: 'home', canActivate: [AuthGuard], component: HomeComponent },
 	{ path: 'project', canActivate: [AuthGuard], loadChildren: projectsRoutes },
+	{ path: 'public', loadChildren: publicRoutes },
 	{
 		path: 'error',
 		component: ErrorPageComponent,

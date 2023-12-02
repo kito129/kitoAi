@@ -2,12 +2,12 @@
   "name": "kito-ai",
   "version": "0.0.1",
   "scripts": {
-	"ng": "ng",
-	"start": "ng serve",
-	"build": "ng build",
-	"watch": "ng build --watch --configuration development",
-	"test": "ng test",
-	"backend": "pcoketbase.exe serve"
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "backend": "pcoketbase.exe serve"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +24,7 @@
     "@angular/router": "^17.0.0",
     "@angular/ssr": "^17.0.0",
     "express": "^4.18.2",
+    "pocketbase": "^0.19.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"

@@ -41,24 +41,30 @@ import {AuthenticationService} from "./core/auth/authentication.service";
           </mat-toolbar>
 
           <div class="container">
-              <mat-sidenav-container class="sidenav-container">
-                  <mat-sidenav #sidenav mode="push">
-                      <mat-nav-list>
-                          <a *ngIf="!(authServices.isLogged$() | async), else logged" mat-list-item
-                             routerLink="/auth/login">Login</a>
-                          <ng-template #logged>
-                              <a mat-list-item routerLink="/home">Home</a>
-                              <a mat-list-item routerLink="/projects">Projects</a>
-                              <mat-divider></mat-divider>
-                              <a mat-list-item (click)="authServices.logout()">LogOut</a>
-                          </ng-template>
-                      </mat-nav-list>
-                  </mat-sidenav>
-                  <!-- Main Content Area -->
-                  <mat-sidenav-content>
-                      <router-outlet></router-outlet>
-                  </mat-sidenav-content>
-              </mat-sidenav-container>
+			  <mat-sidenav-container class="sidenav-container">
+				  <mat-sidenav #sidenav mode="push">
+					  <mat-nav-list>
+						  <a mat-list-item routerLink="/public">Public</a>
+						  <mat-divider></mat-divider>
+						  <ng-container *ngIf="!(authServices.isLogged$() | async), else logged">
+							  <a mat-list-item
+								 routerLink="/auth/login">Login</a>
+						  </ng-container>
+						  <ng-template #logged>
+							  <a mat-list-item routerLink="/">Home</a>
+							  <a mat-list-item routerLink="/projects">Projects</a>
+							  <mat-divider></mat-divider>
+							  <a mat-list-item (click)="authServices.logout()">LogOut</a>
+						  </ng-template>
+					  </mat-nav-list>
+				  </mat-sidenav>
+				  <!-- Main Content Area -->
+				  <mat-sidenav-content>
+
+					  <router-outlet></router-outlet>
+
+				  </mat-sidenav-content>
+			  </mat-sidenav-container>
           </div>
 
           <mat-toolbar color="primary" class="footer">

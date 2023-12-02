@@ -8,8 +8,9 @@ import {ServerResponse} from "../model/serverResponse";
 
 export function ErrorInterceptor (request: HttpRequest<any>, next: HttpHandlerFn) {
 	const auth = inject(AuthenticationService);
-	console.log('\n\n --- Error Interceptor ---')
+
 	return next(request).pipe(catchError((err) => {
+		console.log('\n\n --- Error Interceptor ---')
 		console.log('-> Error')
 		console.log(err.status)
 		if ([401, 403].includes(err.status)) {

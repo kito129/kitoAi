@@ -16,8 +16,12 @@ import EventEmitter from "events";
           <mat-sidenav-container class="sidenav-container">
               <mat-sidenav #sidenav mode="push">
                   <mat-nav-list>
-                      <a *ngIf="!(authServices.isLogged$() | async), else logged" mat-list-item
-                         routerLink="/auth/login">Login</a>
+					  <a mat-list-item routerLink="/public">Public</a>
+					  <mat-divider></mat-divider>
+					  <ng-container *ngIf="!(authServices.isLogged$() | async), else logged">
+						  <a mat-list-item
+							 routerLink="/auth/login">Login</a>
+					  </ng-container>
                       <ng-template #logged>
                           <a mat-list-item routerLink="/">Home</a>
                           <a mat-list-item routerLink="/projects">Projects</a>

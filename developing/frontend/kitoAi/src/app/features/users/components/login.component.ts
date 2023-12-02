@@ -10,6 +10,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatCardModule} from "@angular/material/card";
+import {AdminAuthResponse} from "pocketbase";
 
 @Component({
   selector: 'kito-login',
@@ -33,14 +34,16 @@ import {MatCardModule} from "@angular/material/card";
 						  <mat-card-title>Log in</mat-card-title>
 					  </mat-card-header>
 					  <mat-card-content>
-						  <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
+						  <form [formGroup]="loginForm">
 							  <mat-form-field>
 								  <input matInput
 										 placeholder="Email"
 										 formControlName="email"
 										 type="email"
 										 minlength="6">
-								  <mat-error *ngIf="!loginForm.controls['email'].valid">Must be an Email and least 6 characters long.</mat-error>
+								  <mat-error *ngIf="!loginForm.controls['email'].valid">Must be an Email and least 6
+									  characters long.
+								  </mat-error>
 							  </mat-form-field>
 							  <mat-form-field>
 								  <input matInput
@@ -48,7 +51,9 @@ import {MatCardModule} from "@angular/material/card";
 										 formControlName="password"
 										 type="password"
 										 minlength="6">
-								  <mat-error *ngIf="!loginForm.controls['password'].valid">Password must be 6 to 30 characters long.</mat-error>
+								  <mat-error *ngIf="!loginForm.controls['password'].valid">Password must be 6 to 30
+									  characters long.
+								  </mat-error>
 							  </mat-form-field>
 						  </form>
 					  </mat-card-content>
@@ -56,7 +61,9 @@ import {MatCardModule} from "@angular/material/card";
 						  <button
 							  mat-raised-button
 							  color="primary"
-							  (click)="onSubmit(loginForm)">
+							  type="submit"
+							  [disabled]="!loginForm.valid"
+							  (click)="login(loginForm)">
 							  Log in
 						  </button>
 					  </mat-card-actions>
@@ -75,7 +82,7 @@ import {MatCardModule} from "@angular/material/card";
 export class LoginComponent implements OnInit{
 
 	loginForm: FormGroup
-	userResponse$: Observable<UserResponse | ServerResponse>
+	userResponse$: Observable<AdminAuthResponse | void>
 	constructor(private authServices: AuthenticationService, private fb: FormBuilder) {	}
 
 	ngOnInit(): void {
@@ -83,11 +90,11 @@ export class LoginComponent implements OnInit{
 			email: ['', [Validators.required, Validators.email, Validators.minLength(6), Validators.maxLength(30)]],
 			password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30)]]
 		});
+		this.userResponse$ = this.authServices.getAuthValue()
 	}
 
-	onSubmit(loginForm) {
-		console.log(loginForm)
-		this.userResponse$ = this.authServices.authWithPassword(loginForm.value.email, loginForm.value.password)
+	login(loginForm) {
+		this.userResponse$ = this.authServices.pocketBaseLogin(loginForm.value.email, loginForm.value.password)
 	}
 
 }

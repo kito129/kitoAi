@@ -14,12 +14,10 @@ class User {
   imports: [CommonModule],
   template: `
 	  first
-    <ng-container *ngIf="user$ | async">
-			present
-		<pre *ngIf="checkType(user$ | async), else error">
+    <ng-container *ngIf="(user$ | async) , else error">
+		<pre>
 			{{user$ | async | json}}
 		</pre>
-
 	</ng-container>
 
 	<ng-template #error>
@@ -32,21 +30,12 @@ class User {
 export class HomeComponent implements OnInit{
 
 	@Input() userId!: string;
-	user$: Observable<Pagination<Home> | ServerResponse>;
+	user$: Observable<Pagination<Home> | ServerResponse> = null;
 
 	constructor(private homeService: HomeService) {	}
 
 	ngOnInit(): void {
 		this.user$ = this.homeService.getHomeElements()
-	}
-
-	checkType(value: Pagination<Home> | ServerResponse): boolean{
-		if(value.hasOwnProperty('code')){
-			return false
-		}
-		else if((value as Pagination<Home>).items !== undefined){
-			return true
-		} else return null
 	}
 
 }

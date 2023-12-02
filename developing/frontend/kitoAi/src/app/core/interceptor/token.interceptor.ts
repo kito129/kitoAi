@@ -14,9 +14,9 @@ export function TokenInterceptor (request: HttpRequest<any>, next: HttpHandlerFn
 		});
 	} else {
 		console.log('-> Not logged')
+		auth.logout();
 	}
 	const cloneReq = request.clone({headers});
-	console.log(cloneReq)
 	return next(cloneReq)
 }
 
