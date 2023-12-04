@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../../../environments/environment";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {catchError, from, map, Observable, of, throwError} from "rxjs";
 import {UserResponse} from "../../features/users/model/user";
-import {ListAuthMethods, ServerResponse} from "../model/serverResponse";
+import {ListAuthMethods, Pagination, ServerResponse} from "../model/serverResponse";
 import {Router} from "@angular/router";
 import { Utils } from '../../shared/utils';
 // for login
 import PocketBase, {AdminAuthResponse} from 'pocketbase';
+import {Home} from "../../features/home/model/home";
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +19,11 @@ export class AuthenticationService {
 	pb = new PocketBase('http://127.0.0.1:8090');
 	adminAuthResponse: Observable<AdminAuthResponse> = new Observable<AdminAuthResponse>()
 
+	adminAuth: Observable<HttpResponse<AdminAuthResponse>> = new Observable<HttpResponse<AdminAuthResponse>>()
+
 	constructor(private http: HttpClient, private router: Router) { }
 
-	pocketBaseLogin(identity: string, password: string): Observable<AdminAuthResponse | void> {
+	pocketBaseLogin(identity: string, password: string): Observable<AdminAuthResponse> {
 		return from(this.pb.admins.authWithPassword(identity, password)
 			.then((authResponse: AdminAuthResponse)=>{
 			// console.log(authResponse)
@@ -28,8 +31,8 @@ export class AuthenticationService {
 				AuthenticationService.setSessionToken(authResponse.token);
 				if (localStorage.getItem('isLogged')) {
 					this.adminAuthResponse = of(authResponse)
-					// this.router.navigate(['/home']);
 					console.log('logged in')
+					this.router.navigate(['/home']);
 				}
 				return authResponse
 			} else {
@@ -40,11 +43,16 @@ export class AuthenticationService {
 					console.log('unauthorized')
 				} else if(err.status === 500) {
 					console.log('server error')
+					this.router.navigate(['/error']);
 				}
+				const errorResp: AdminAuthResponse = {
+					token: null,
+					error: err,
+					admin: null,
+				}
+				return errorResp
 				// console.log(err)
 			}))
-
-
 	}
 
 	// private so no one outside this service can call it

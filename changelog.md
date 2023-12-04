@@ -1,5 +1,12 @@
 # changelog
 
+## [v0.0.5] - 2023/12/2
+
+- fixed authentication with pocketbase and promises
+- login compo fixed
+- add public component
+- fixed services
+
 ## [v0.0.4] - 2023/11/16
 
 - try for layout but not like that

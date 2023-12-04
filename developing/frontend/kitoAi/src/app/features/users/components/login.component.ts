@@ -29,7 +29,24 @@ import {AdminAuthResponse} from "pocketbase";
 	  <div class="row">
 		  <div class="col">
 			  <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
-				  <mat-card class="box">
+				  <ng-template #unloged>
+					  <mat-card>
+						  <mat-card-header>
+							  <mat-card-title>Log Out</mat-card-title>
+						  </mat-card-header>
+						  <mat-card-content>
+							  <button
+								  mat-raised-button
+								  color="accent"
+								  type="submit"
+								  class="mr-2"
+								  (click)="logout()">
+								  Log Out
+							  </button>
+						  </mat-card-content>
+					  </mat-card>
+				  </ng-template>
+				  <mat-card *ngIf="!(isLogged$ | async), else unloged" class="box">
 					  <mat-card-header>
 						  <mat-card-title>Log in</mat-card-title>
 					  </mat-card-header>
@@ -58,20 +75,21 @@ import {AdminAuthResponse} from "pocketbase";
 						  </form>
 					  </mat-card-content>
 					  <mat-card-actions>
-						  <button
-							  mat-raised-button
-							  color="primary"
-							  type="submit"
-							  [disabled]="!loginForm.valid"
-							  (click)="login(loginForm)">
-							  Log in
-						  </button>
+						  <div class="row">
+							  <button
+								  mat-raised-button
+								  color="primary"
+								  type="submit"
+								  class="mr-2"
+								  [disabled]="!loginForm.valid"
+								  (click)="login(loginForm)">
+								  Log in
+							  </button>
+							  <mat-error *ngIf="(userResponse$ | async)">
+								  <p *ngIf="!(userResponse$ | async).admin">Credentials invalid</p>
+							  </mat-error>
+						  </div>
 					  </mat-card-actions>
-					  <mat-card-footer>
-						  <pre>
-							  {{ userResponse$ | async | json }}
-						  </pre>
-					  </mat-card-footer>
 				  </mat-card>
 			  </div>
 		  </div>
@@ -82,7 +100,8 @@ import {AdminAuthResponse} from "pocketbase";
 export class LoginComponent implements OnInit{
 
 	loginForm: FormGroup
-	userResponse$: Observable<AdminAuthResponse | void>
+	userResponse$: Observable<AdminAuthResponse>
+	isLogged$: Observable<boolean>
 	constructor(private authServices: AuthenticationService, private fb: FormBuilder) {	}
 
 	ngOnInit(): void {
@@ -91,10 +110,15 @@ export class LoginComponent implements OnInit{
 			password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30)]]
 		});
 		this.userResponse$ = this.authServices.getAuthValue()
+		this.isLogged$ = this.authServices.isLogged$()
 	}
 
 	login(loginForm) {
 		this.userResponse$ = this.authServices.pocketBaseLogin(loginForm.value.email, loginForm.value.password)
+	}
+	
+	logout(){
+		this.authServices.logout()
 	}
 
 }

@@ -26,5 +26,5 @@ export const APP_ROUTES: Routes = [
 			desc: 'Oopps!! The page you were looking for doesn\'t exist.'
 		}
 	},
-	{ path: '**', redirectTo: 'home', pathMatch: 'full' }
+	{ path: '**', redirectTo: 'public', pathMatch: 'full' }
 ];
