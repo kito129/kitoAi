@@ -1,5 +1,12 @@
 # changelog
 
+## [v0.0.6] - 2023/12/03
+- last fix @ authentication services
+- login component fixed
+- guard and interceptor works
+
+next step pagination and base layout with navbar, sidebar and footer working
+
 ## [v0.0.5] - 2023/12/2
 
 - fixed authentication with pocketbase and promises

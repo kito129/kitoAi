@@ -116,7 +116,7 @@ export class LoginComponent implements OnInit{
 	login(loginForm) {
 		this.userResponse$ = this.authServices.pocketBaseLogin(loginForm.value.email, loginForm.value.password)
 	}
-	
+
 	logout(){
 		this.authServices.logout()
 	}
