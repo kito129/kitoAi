@@ -1,0 +1,10 @@
+{
+  "routes": [
+    "/auth/login",
+    "/error",
+    "/home",
+    "/home/dashboard",
+    "/projects",
+    "/public"
+  ]
+}

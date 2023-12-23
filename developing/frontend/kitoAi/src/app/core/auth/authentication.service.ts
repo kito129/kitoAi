@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {HttpClient, HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {catchError, from, map, Observable, of, throwError} from "rxjs";
@@ -9,6 +9,7 @@ import { Utils } from '../../shared/utils';
 // for login
 import PocketBase, {AdminAuthResponse} from 'pocketbase';
 import {Home} from "../../features/home/model/home";
+import {DOCUMENT} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -18,18 +19,21 @@ export class AuthenticationService {
 	prefix = environment.apiUrl
 	pb = new PocketBase('http://127.0.0.1:8090');
 	adminAuthResponse: Observable<AdminAuthResponse> = new Observable<AdminAuthResponse>()
+    localStorage: any = null
 
 	adminAuth: Observable<HttpResponse<AdminAuthResponse>> = new Observable<HttpResponse<AdminAuthResponse>>()
 
-	constructor(private http: HttpClient, private router: Router) { }
+	constructor(private http: HttpClient, private router: Router, @Inject(DOCUMENT) private document: Document) {
+        this.localStorage = document.defaultView.localStorage;
+    }
 
 	pocketBaseLogin(identity: string, password: string): Observable<AdminAuthResponse> {
 		return from(this.pb.admins.authWithPassword(identity, password)
 			.then((authResponse: AdminAuthResponse)=>{
 			// console.log(authResponse)
 			if(authResponse.token) {
-				AuthenticationService.setSessionToken(authResponse.token);
-				if (localStorage.getItem('isLogged')) {
+				this.setSessionToken(authResponse.token);
+				if (this.localStorage.getItem('isLogged')) {
 					this.adminAuthResponse = of(authResponse)
 					console.log('logged in')
 					this.router.navigate(['/home']);
@@ -56,13 +60,13 @@ export class AuthenticationService {
 	}
 
 	// private so no one outside this service can call it
-	private static setSessionToken(authToken) {
-		localStorage.setItem('token', authToken);
-		localStorage.setItem('isLogged', 'true');
+	private setSessionToken(authToken) {
+        this.localStorage.setItem('token', authToken);
+        this.localStorage.setItem('isLogged', 'true');
 	}
 	getSessionToken(): string {
-		if(localStorage.getItem('isLogged') === 'true' && localStorage.getItem('token') !== null){
-			return localStorage.getItem('token');
+		if(this.localStorage.getItem('isLogged') === 'true' && this.localStorage.getItem('token') !== null){
+			return this.localStorage.getItem('token');
 		} else {
 			return null
 		}
@@ -73,18 +77,18 @@ export class AuthenticationService {
 	}
 
 	isLogged(): boolean {
-		return localStorage.getItem('isLogged') === 'true' && localStorage.getItem('token') !== null
+		return this.localStorage.getItem('isLogged') === 'true' && this.localStorage.getItem('token') !== null
 	}
 
 	isLogged$(): Observable<boolean> {
-		return of(localStorage.getItem('isLogged') === 'true' && localStorage.getItem('token') !== null)
+		return of(this.localStorage.getItem('isLogged') === 'true' && this.localStorage.getItem('token') !== null)
 	}
 
 	logout() {
 		console.log('logging out..')
-		localStorage.removeItem('token');
-		localStorage.removeItem('isLogged');
-		if (!localStorage.getItem('isLogged')) {
+        this.localStorage.removeItem('token');
+        this.localStorage.removeItem('isLogged');
+		if (!this.localStorage.getItem('isLogged')) {
 			this.router.navigate(['/auth/login']);
 		}
 		console.log('logged out')

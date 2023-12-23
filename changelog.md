@@ -1,5 +1,15 @@
 # changelog
 
+## [v0.0.7] - 2023/12/23
+- fixed layout with navbar, sidebar and footer
+- fixed login component
+- menu form file
+- fixed authentication services
+- reintroduced SSR
+- fixed production
+- backend with fastify now in working
+- first unofficial build
+
 ## [v0.0.6] - 2023/12/03
 - last fix @ authentication services
 - login component fixed

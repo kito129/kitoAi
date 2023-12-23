@@ -5,15 +5,11 @@ import {Observable} from "rxjs";
 import {Home} from "../model/home";
 import {Pagination, ServerResponse} from "../../../core/model/serverResponse";
 
-class User {
-}
-
 @Component({
   selector: 'kito-home',
   standalone: true,
   imports: [CommonModule],
   template: `
-	  first
     <ng-container *ngIf="(user$ | async) , else error">
 		<pre>
 			{{user$ | async | json}}
@@ -24,11 +20,9 @@ class User {
 		<p>error</p>
 	</ng-template>
 
-  `,
-  styles: ``
+  `
 })
 export class HomeComponent implements OnInit{
-
 	@Input() userId!: string;
 	user$: Observable<Pagination<Home> | ServerResponse> = null;
 
@@ -37,5 +31,4 @@ export class HomeComponent implements OnInit{
 	ngOnInit(): void {
 		this.user$ = this.homeService.getHomeElements()
 	}
-
 }
