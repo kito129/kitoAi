@@ -19,56 +19,94 @@
         pb_hooks/
         pocketbase
 
-ON Ubuntu Server:
-
-Install FileZilla:
-
-Bash
-
-    sudo apt update
-    sudo apt install filezilla
-
-Enable FileZilla FTP server:
-
-    sudo systemctl enable ftp
-
-Start the FileZilla FTP server:
-
-    sudo systemctl start ftp
-
-To configure user and pass for FTP authentication on an Ubuntu server, you can follow these steps:
-
-Create an FTP user:
-
-    sudo adduser ftpKitoUser
-
-This will create a new user named ftpuser.
-
-Set a password for the FTP user:
+On Windows
     
-    sudo passwd ftpKitoUser
+    pscp -r D:\00_projects\03_kitoDotAi\kitoAi\developing\backend\pb_data root@66.94.107.224:/home/copyData
 
-Enter the password you want to use for the FTP user.
+On Ubuntu
 
-Change the default FTP configuration:
-    
-    sudo nano /etc/vsftpd.conf
+    mkdir pb_data
+    cp -r /home/copyData/* /home/kitoAi/developing/backend/pb_data
 
-In the /etc/vsftpd.conf file, find the following lines:
+## Step 1: Install Prometheus and Node Exporter
 
-    anonymous_enable=NO
-    local_enable=YES
-These lines will disable anonymous FTP access and enable local FTP access.
+Download Prometheus from [link](https://prometheus.io/download/)
 
-Set the FTP user and group:
+    wget https://github.com/prometheus/prometheus/releases/download/v2.49.0-rc.1/prometheus-2.49.0-rc.1.linux-amd64.tar.gz
 
-    chown ftpuser:ftpuser /home/ftpuser
 
-This will change the ownership of the /home/ftpuser directory to the ftpuser user and group.
+    tar xvfz prometheus-*.tar.gz
+    cd prometheus-*
+    nano prometheus.yml
 
-Restart the FTP service:
+``` yaml
+global:
+scrape_interval:     15s
+evaluation_interval: 15s
 
-    sudo systemctl restart vsftpd
+scrape_configs:
+- job_name: 'nginx'
+  static_configs:
+    - targets: ['localhost:9100']  # Assuming Node Exporter is running on the same server
+
+- job_name: 'prometheus'
+  static_configs:
+    - targets: ['localhost:9090']
+```
+
+# Download Node Exporter
+
+
+
+
+
+```bash
+server {
+    listen 80;
+    server_name kito.ai www.kito.ai;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name kito.ai www.kito.ai;
+
+    ssl_certificate /etc/nginx/ssl/kito.ai.crt;
+    ssl_certificate_key /etc/nginx/ssl/kito.ai.key;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers 'TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384';
+    ssl_prefer_server_ciphers on;
+
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+    location / {
+        root /home/kitoAi/developing/backend/public/browser;
+        index index.html;
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api/ {
+        proxy_pass localhost:8090/api/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
 
