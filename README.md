@@ -23,6 +23,8 @@ On Windows
     
     pscp -r D:\00_projects\03_kitoDotAi\kitoAi\developing\backend\pb_data root@66.94.107.224:/home/copyData
 
+    pscp -r C:\Users\kito\Downloads\pocketbase_0.20.1_linux_amd64 root@66.94.107.224:/home/copyData/2
+
 On Ubuntu
 
     mkdir pb_data
@@ -54,11 +56,7 @@ scrape_configs:
     - targets: ['localhost:9090']
 ```
 
-# Download Node Exporter
-
-
-
-
+## NGINX configuration
 
 ```bash
 server {
@@ -96,20 +94,6 @@ server {
     }
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## FrontEnd 
 
