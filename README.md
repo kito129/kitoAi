@@ -10,6 +10,68 @@
 
 [Technology](./design/technology.md)
 
+# Deployment  
+
+## Go Live
+
+    backend/
+        pb_migrations/
+        pb_hooks/
+        pocketbase
+
+ON Ubuntu Server:
+
+Install FileZilla:
+
+Bash
+
+    sudo apt update
+    sudo apt install filezilla
+
+Enable FileZilla FTP server:
+
+    sudo systemctl enable ftp
+
+Start the FileZilla FTP server:
+
+    sudo systemctl start ftp
+
+To configure user and pass for FTP authentication on an Ubuntu server, you can follow these steps:
+
+Create an FTP user:
+
+    sudo adduser ftpKitoUser
+
+This will create a new user named ftpuser.
+
+Set a password for the FTP user:
+    
+    sudo passwd ftpKitoUser
+
+Enter the password you want to use for the FTP user.
+
+Change the default FTP configuration:
+    
+    sudo nano /etc/vsftpd.conf
+
+In the /etc/vsftpd.conf file, find the following lines:
+
+    anonymous_enable=NO
+    local_enable=YES
+These lines will disable anonymous FTP access and enable local FTP access.
+
+Set the FTP user and group:
+
+    chown ftpuser:ftpuser /home/ftpuser
+
+This will change the ownership of the /home/ftpuser directory to the ftpuser user and group.
+
+Restart the FTP service:
+
+    sudo systemctl restart vsftpd
+
+
+
 
 ## FrontEnd 
 
