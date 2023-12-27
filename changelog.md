@@ -1,5 +1,8 @@
 # changelog
 
+## [v0.0.9] - 2023/12/27
+- first build
+
 ## [v0.0.7] - 2023/12/23
 - fixed layout with navbar, sidebar and footer
 - fixed login component
