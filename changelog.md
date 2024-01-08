@@ -1,5 +1,18 @@
 # changelog
 
+## [v0.0.9] - 2024/01/09
+# FRONTEND
+- install boostrap
+- fix layout
+- create page and card boostrap based in shard components
+- TODO fix authentication localStorage that create problems in dev
+- add finance route and first start
+
+
+# BACKEND
+- finance collections and first test
+
+
 ## [v0.0.9] - 2023/12/27
 - first build
 
