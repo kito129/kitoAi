@@ -22,4 +22,9 @@ export const MENU: MenuItem[] = [
 		icon: 'layout',
 		link: 'projects'
 	},
+    {
+        label: 'Finance',
+        icon: 'finance',
+        link: 'finance'
+    },
 ];

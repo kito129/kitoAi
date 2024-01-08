@@ -101,7 +101,7 @@ export class LoginComponent implements OnInit{
 
 	loginForm: FormGroup
 	userResponse$: Observable<AdminAuthResponse>
-	isLogged$: Observable<boolean>
+	isLogged$: Observable<boolean> = null
 	constructor(private authServices: AuthenticationService, private fb: FormBuilder) {	}
 
 	ngOnInit(): void {

@@ -19,14 +19,19 @@ export class AuthenticationService {
 	prefix = environment.apiUrl
 	pb = new PocketBase('http://127.0.0.1:8090');
 	adminAuthResponse: Observable<AdminAuthResponse> = new Observable<AdminAuthResponse>()
-    localStorage: any = null
+    localStorage: Storage = null
 
 	adminAuth: Observable<HttpResponse<AdminAuthResponse>> = new Observable<HttpResponse<AdminAuthResponse>>()
 
 	constructor(private http: HttpClient, private router: Router, @Inject(DOCUMENT) private document: Document) {
-        this.localStorage = document.defaultView.localStorage;
-    }
+        if (document.defaultView.localStorage) {
+            this.localStorage = document.defaultView.localStorage;
+        } else {
+            console.error("Local storage is not available.");
+            this.localStorage = null;
 
+        }
+    }
 	pocketBaseLogin(identity: string, password: string): Observable<AdminAuthResponse> {
 		return from(this.pb.admins.authWithPassword(identity, password)
 			.then((authResponse: AdminAuthResponse)=>{

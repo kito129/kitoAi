@@ -82,12 +82,12 @@
 			  "outputHashing": "all"
 				},
 			"development": {
-			  "optimization": true,
+			  "optimization": false,
 			  "extractLicenses": false,
 			  "sourceMap": true
 			}
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -121,7 +121,12 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/pink-bluegrey.css",
-              "src/styles.css"
+              "src/styles.css",
+              {
+                "glob": "./node_modules/bootstrap/dist/css/*.min.css",
+                "input": "./src/styles.css",
+                "output": "./dist/styles.css"
+              }
             ],
             "scripts": []
           }

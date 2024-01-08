@@ -19,7 +19,7 @@ import {
   getRtlScrollAxisType,
   hasModifierKey,
   supportsScrollBehavior
-} from "./chunk-SUVYIHXU.js";
+} from "./chunk-CIPSTF65.js";
 import {
   animate,
   state,
