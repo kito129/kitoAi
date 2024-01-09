@@ -3,15 +3,15 @@ import {HttpRequest,HttpHeaders, HttpHandlerFn
 } from '@angular/common/http';
 import {AuthenticationService} from "../auth/authentication.service";
 
-export function TokenInterceptor (request: HttpRequest<any>, next: HttpHandlerFn) {
+export function TokenInterceptor (request: HttpRequest<unknown>, next: HttpHandlerFn) {
 	const auth = inject(AuthenticationService);
 	// console.log('\n\n --- Token Interceptor ---')
+
+    const token = localStorage.getItem('token')
 	let headers: HttpHeaders
-	if(auth.isLogged()){
-		headers = new HttpHeaders({
-			Authorization: `${auth.getSessionToken()}`,
-			'content-Type': 'application/json',
-		});
+	if(token){
+        request.headers.set('Authorization', 'Bearer ' + token)
+        request.headers.set('Content-Type', 'application/json')
 	} else {
 		console.log('-> Not logged')
 		auth.logout();

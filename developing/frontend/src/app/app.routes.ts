@@ -6,11 +6,12 @@ import {DashboardComponent} from "./features/home/components/dashboard.component
 import {ProjectsComponent} from "./features/projects/components/projects.component";
 import {PublicComponent} from "./features/public/components/public.component";
 import {FinanceComponent} from "./features/finance/components/finance.component";
+import {LoginComponent} from "./features/users/components/login.component";
 
 
 export const APP_ROUTES: Routes = [
 	// AUTH routes
-	//{ path: 'auth/login', component: LoginComponent },
+	{ path: 'auth/login', component: LoginComponent },
 	// PUBLIC routes
 	{ path: 'public', component: PublicComponent},
 	// ADMIN routes

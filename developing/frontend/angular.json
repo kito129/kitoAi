@@ -57,11 +57,12 @@
             ],
             "scripts": [],
             "server": "src/main.server.ts",
-            "prerender": true
+            "prerender": false
           },
           "configurations": {
             "production": {
-				"fileReplacements": [
+              "ssr": false,
+              "fileReplacements": [
 					{
 						"replace": "src/environments/environment.ts",
 						"with": "src/environments/environment.prod.ts"
@@ -84,8 +85,9 @@
 			"development": {
 			  "optimization": false,
 			  "extractLicenses": false,
-			  "sourceMap": true
-			}
+			  "sourceMap": true,
+              "ssr": false
+            }
           },
           "defaultConfiguration": "development"
         },
