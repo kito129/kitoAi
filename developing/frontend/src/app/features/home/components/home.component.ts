@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {HomeService} from "../services/home.service";
 import {Observable} from "rxjs";
-import {Home} from "../model/home";
+import {Home} from "../model/home.model";
 import {Pagination, ServerResponse} from "../../../core/model/serverResponse";
 
 @Component({
@@ -23,8 +23,7 @@ import {Pagination, ServerResponse} from "../../../core/model/serverResponse";
   `
 })
 export class HomeComponent implements OnInit{
-	homeElements$: Observable<Pagination<Home> | ServerResponse> = null;
-
+	homeElements$: Observable<Pagination<Home>> = null;
 	constructor(private homeService: HomeService) {	}
 
 	ngOnInit(): void {

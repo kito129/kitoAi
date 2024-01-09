@@ -10,8 +10,10 @@ export function TokenInterceptor (request: HttpRequest<unknown>, next: HttpHandl
     const token = localStorage.getItem('token')
 	let headers: HttpHeaders
 	if(token){
-        request.headers.set('Authorization', 'Bearer ' + token)
-        request.headers.set('Content-Type', 'application/json')
+		headers = new HttpHeaders({
+			Authorization: `${auth.getSessionToken()}`,
+			'content-Type': 'application/json',
+		});
 	} else {
 		console.log('-> Not logged')
 		auth.logout();
