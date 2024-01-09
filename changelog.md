@@ -1,5 +1,21 @@
 # changelog
 
+## [v0.0.9.1] - 2024/01/10
+- [finance component](https://github.com/kito129/kitoAi/tree/1431d9e846fffe22dcd8022e699eb002037678fb)
+  - start finance component
+  - start simple table and study over mat-table for http, pagination and sort
+  - finance services with pocketbase expand function
+- [fix app component CSS and layout](https://github.com/kito129/kitoAi/tree/16e68004f7f5031ff5456178da4a36173091f029)
+- [fix token and homeService](https://github.com/kito129/kitoAi/tree/d7a9950a436238dc8ba4a8db03b9dba3c5246097)
+  - type of home response
+  - simplified http client for home service
+- [## [v0.0.9] - 2024/01/09](https://github.com/kito129/kitoAi/tree/9e0fc34233c0a091cf5f3176fc6d5b14f996efee)
+  - remove prerender that create error in local Storage
+  - fix auth service with local storage
+  - reimport Login component
+
+
+
 ## [v0.0.9] - 2024/01/09
 # FRONTEND
 - install boostrap
