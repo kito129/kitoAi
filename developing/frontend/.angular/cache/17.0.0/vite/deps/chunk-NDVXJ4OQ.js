@@ -62,11 +62,31 @@ function state(name, styles, options) {
     options
   };
 }
+function keyframes(steps) {
+  return {
+    type: 5,
+    steps
+  };
+}
 function transition(stateChangeExpr, steps, options = null) {
   return {
     type: 1,
     expr: stateChangeExpr,
     animation: steps,
+    options
+  };
+}
+function animateChild(options = null) {
+  return {
+    type: 9,
+    options
+  };
+}
+function query(selector, animation, options = null) {
+  return {
+    type: 11,
+    selector,
+    animation,
     options
   };
 }
@@ -562,12 +582,12 @@ function optimizeGroupPlayer(players) {
       return new AnimationGroupPlayer(players);
   }
 }
-function normalizeKeyframes$1(normalizer, keyframes, preStyles = /* @__PURE__ */ new Map(), postStyles = /* @__PURE__ */ new Map()) {
+function normalizeKeyframes$1(normalizer, keyframes2, preStyles = /* @__PURE__ */ new Map(), postStyles = /* @__PURE__ */ new Map()) {
   const errors = [];
   const normalizedKeyframes = [];
   let previousOffset = -1;
   let previousKeyframe = null;
-  keyframes.forEach((kf) => {
+  keyframes2.forEach((kf) => {
     const offset = kf.get("offset");
     const isSameOffset = offset == previousOffset;
     const normalizedKeyframe = isSameOffset && previousKeyframe || /* @__PURE__ */ new Map();
@@ -743,7 +763,7 @@ var _NoopAnimationDriver = class _NoopAnimationDriver {
   /**
    * @returns An `NoopAnimationPlayer`
    */
-  animate(element, keyframes, duration, delay, easing, previousPlayers = [], scrubberAccessRequested) {
+  animate(element, keyframes2, duration, delay, easing, previousPlayers = [], scrubberAccessRequested) {
     return new NoopAnimationPlayer(duration, delay);
   }
 };
@@ -856,14 +876,14 @@ function convertToMap(obj) {
   });
   return styleMap;
 }
-function normalizeKeyframes(keyframes) {
-  if (!keyframes.length) {
+function normalizeKeyframes(keyframes2) {
+  if (!keyframes2.length) {
     return [];
   }
-  if (keyframes[0] instanceof Map) {
-    return keyframes;
+  if (keyframes2[0] instanceof Map) {
+    return keyframes2;
   }
-  return keyframes.map((kf) => convertToMap(kf));
+  return keyframes2.map((kf) => convertToMap(kf));
 }
 function copyStyles(styles, destination = /* @__PURE__ */ new Map(), backfill) {
   if (backfill) {
@@ -953,9 +973,9 @@ function camelCaseToDashCase(input) {
 function allowPreviousPlayerStylesMerge(duration, delay) {
   return duration === 0 || delay === 0;
 }
-function balancePreviousStylesIntoKeyframes(element, keyframes, previousStyles) {
-  if (previousStyles.size && keyframes.length) {
-    let startingKeyframe = keyframes[0];
+function balancePreviousStylesIntoKeyframes(element, keyframes2, previousStyles) {
+  if (previousStyles.size && keyframes2.length) {
+    let startingKeyframe = keyframes2[0];
     let missingStyleProps = [];
     previousStyles.forEach((val, prop) => {
       if (!startingKeyframe.has(prop)) {
@@ -964,13 +984,13 @@ function balancePreviousStylesIntoKeyframes(element, keyframes, previousStyles) 
       startingKeyframe.set(prop, val);
     });
     if (missingStyleProps.length) {
-      for (let i = 1; i < keyframes.length; i++) {
-        let kf = keyframes[i];
+      for (let i = 1; i < keyframes2.length; i++) {
+        let kf = keyframes2[i];
         missingStyleProps.forEach((prop) => kf.set(prop, computeStyle(element, prop)));
       }
     }
   }
-  return keyframes;
+  return keyframes2;
 }
 function visitDslNode(visitor, node, context) {
   switch (node.type) {
@@ -1374,7 +1394,7 @@ var AnimationAstBuilderVisitor = class {
     let offsetsOutOfOrder = false;
     let keyframesOutOfRange = false;
     let previousOffset = 0;
-    const keyframes = metadata.steps.map((styles) => {
+    const keyframes2 = metadata.steps.map((styles) => {
       const style2 = this._makeStyleAst(styles, context);
       let offsetVal = style2.offset != null ? style2.offset : consumeOffset(style2.styles);
       let offset = 0;
@@ -1405,7 +1425,7 @@ var AnimationAstBuilderVisitor = class {
     const currentTime = context.currentTime;
     const currentAnimateTimings = context.currentAnimateTimings;
     const animateDuration = currentAnimateTimings.duration;
-    keyframes.forEach((kf, i) => {
+    keyframes2.forEach((kf, i) => {
       const offset = generatedOffset > 0 ? i == limit ? 1 : generatedOffset * i : offsets[i];
       const durationUpToThisFrame = offset * animateDuration;
       context.currentTime = currentTime + currentAnimateTimings.delay + durationUpToThisFrame;
@@ -1558,11 +1578,11 @@ function makeTimingAst(duration, delay, easing) {
     easing
   };
 }
-function createTimelineInstruction(element, keyframes, preStyleProps, postStyleProps, duration, delay, easing = null, subTimeline = false) {
+function createTimelineInstruction(element, keyframes2, preStyleProps, postStyleProps, duration, delay, easing = null, subTimeline = false) {
   return {
     type: 1,
     element,
-    keyframes,
+    keyframes: keyframes2,
     preStyleProps,
     postStyleProps,
     duration,
@@ -2145,9 +2165,9 @@ var TimelineBuilder = class _TimelineBuilder {
   }
 };
 var SubTimelineBuilder = class extends TimelineBuilder {
-  constructor(driver, element, keyframes, preStyleProps, postStyleProps, timings, _stretchStartingKeyframe = false) {
+  constructor(driver, element, keyframes2, preStyleProps, postStyleProps, timings, _stretchStartingKeyframe = false) {
     super(driver, element, timings.delay);
-    this.keyframes = keyframes;
+    this.keyframes = keyframes2;
     this.preStyleProps = preStyleProps;
     this.postStyleProps = postStyleProps;
     this._stretchStartingKeyframe = _stretchStartingKeyframe;
@@ -2161,7 +2181,7 @@ var SubTimelineBuilder = class extends TimelineBuilder {
     return this.keyframes.length > 1;
   }
   buildKeyframes() {
-    let keyframes = this.keyframes;
+    let keyframes2 = this.keyframes;
     let {
       delay,
       duration,
@@ -2171,15 +2191,15 @@ var SubTimelineBuilder = class extends TimelineBuilder {
       const newKeyframes = [];
       const totalTime = duration + delay;
       const startingGap = delay / totalTime;
-      const newFirstKeyframe = copyStyles(keyframes[0]);
+      const newFirstKeyframe = copyStyles(keyframes2[0]);
       newFirstKeyframe.set("offset", 0);
       newKeyframes.push(newFirstKeyframe);
-      const oldFirstKeyframe = copyStyles(keyframes[0]);
+      const oldFirstKeyframe = copyStyles(keyframes2[0]);
       oldFirstKeyframe.set("offset", roundOffset(startingGap));
       newKeyframes.push(oldFirstKeyframe);
-      const limit = keyframes.length - 1;
+      const limit = keyframes2.length - 1;
       for (let i = 1; i <= limit; i++) {
-        let kf = copyStyles(keyframes[i]);
+        let kf = copyStyles(keyframes2[i]);
         const oldOffset = kf.get("offset");
         const timeAtKeyframe = delay + oldOffset * duration;
         kf.set("offset", roundOffset(timeAtKeyframe / totalTime));
@@ -2188,9 +2208,9 @@ var SubTimelineBuilder = class extends TimelineBuilder {
       duration = totalTime;
       delay = 0;
       easing = "";
-      keyframes = newKeyframes;
+      keyframes2 = newKeyframes;
     }
-    return createTimelineInstruction(this.element, keyframes, this.preStyleProps, this.postStyleProps, duration, delay, easing, true);
+    return createTimelineInstruction(this.element, keyframes2, this.preStyleProps, this.postStyleProps, duration, delay, easing, true);
   }
 };
 function roundOffset(offset, decimalPoints = 3) {
@@ -2300,10 +2320,10 @@ function checkNonAnimatableInTimelines(timelines, triggerName, driver) {
   ]);
   const invalidNonAnimatableProps = /* @__PURE__ */ new Set();
   timelines.forEach(({
-    keyframes
+    keyframes: keyframes2
   }) => {
     const nonAnimatablePropsInitialValues = /* @__PURE__ */ new Map();
-    keyframes.forEach((keyframe) => {
+    keyframes2.forEach((keyframe) => {
       const entriesToCheck = Array.from(keyframe.entries()).filter(([prop]) => !allowedNonAnimatableProps.has(prop));
       for (const [prop, value] of entriesToCheck) {
         if (!driver.validateAnimatableStyleProperty(prop)) {
@@ -2448,8 +2468,8 @@ var TimelineAnimationEngine = class {
   }
   _buildPlayer(i, preStyles, postStyles) {
     const element = i.element;
-    const keyframes = normalizeKeyframes$1(this._normalizer, i.keyframes, preStyles, postStyles);
-    return this._driver.animate(element, keyframes, i.duration, i.delay, i.easing, [], true);
+    const keyframes2 = normalizeKeyframes$1(this._normalizer, i.keyframes, preStyles, postStyles);
+    return this._driver.animate(element, keyframes2, i.duration, i.delay, i.easing, [], true);
   }
   create(id, element, options = {}) {
     const errors = [];
@@ -3578,8 +3598,8 @@ var TransitionAnimationEngine = class {
       });
       const preStyles = preStylesMap.get(element);
       const postStyles = postStylesMap.get(element);
-      const keyframes = normalizeKeyframes$1(this._normalizer, timelineInstruction.keyframes, preStyles, postStyles);
-      const player2 = this._buildPlayer(timelineInstruction, keyframes, previousPlayers);
+      const keyframes2 = normalizeKeyframes$1(this._normalizer, timelineInstruction.keyframes, preStyles, postStyles);
+      const player2 = this._buildPlayer(timelineInstruction, keyframes2, previousPlayers);
       if (timelineInstruction.subTimeline && skippedPlayersMap) {
         allSubElements.add(element);
       }
@@ -3605,9 +3625,9 @@ var TransitionAnimationEngine = class {
     });
     return player;
   }
-  _buildPlayer(instruction, keyframes, previousPlayers) {
-    if (keyframes.length > 0) {
-      return this.driver.animate(instruction.element, keyframes, instruction.duration, instruction.delay, instruction.easing, previousPlayers);
+  _buildPlayer(instruction, keyframes2, previousPlayers) {
+    if (keyframes2.length > 0) {
+      return this.driver.animate(instruction.element, keyframes2, instruction.duration, instruction.delay, instruction.easing, previousPlayers);
     }
     return new NoopAnimationPlayer(instruction.duration, instruction.delay);
   }
@@ -3994,9 +4014,9 @@ function isNonAnimatableStyle(prop) {
   return prop === "display" || prop === "position";
 }
 var WebAnimationsPlayer = class {
-  constructor(element, keyframes, options, _specialStyles) {
+  constructor(element, keyframes2, options, _specialStyles) {
     this.element = element;
-    this.keyframes = keyframes;
+    this.keyframes = keyframes2;
     this.options = options;
     this._specialStyles = _specialStyles;
     this._onDoneFns = [];
@@ -4030,9 +4050,9 @@ var WebAnimationsPlayer = class {
     if (this._initialized)
       return;
     this._initialized = true;
-    const keyframes = this.keyframes;
-    this.domPlayer = this._triggerWebAnimation(this.element, keyframes, this.options);
-    this._finalKeyframe = keyframes.length ? keyframes[keyframes.length - 1] : /* @__PURE__ */ new Map();
+    const keyframes2 = this.keyframes;
+    this.domPlayer = this._triggerWebAnimation(this.element, keyframes2, this.options);
+    this._finalKeyframe = keyframes2.length ? keyframes2[keyframes2.length - 1] : /* @__PURE__ */ new Map();
     const onFinish = () => this._onFinish();
     this.domPlayer.addEventListener("finish", onFinish);
     this.onDestroy(() => {
@@ -4046,16 +4066,16 @@ var WebAnimationsPlayer = class {
       this.domPlayer.pause();
     }
   }
-  _convertKeyframesToObject(keyframes) {
+  _convertKeyframesToObject(keyframes2) {
     const kfs = [];
-    keyframes.forEach((frame) => {
+    keyframes2.forEach((frame) => {
       kfs.push(Object.fromEntries(frame));
     });
     return kfs;
   }
   /** @internal */
-  _triggerWebAnimation(element, keyframes, options) {
-    return element.animate(this._convertKeyframesToObject(keyframes), options);
+  _triggerWebAnimation(element, keyframes2, options) {
+    return element.animate(this._convertKeyframesToObject(keyframes2), options);
   }
   onStart(fn) {
     this._originalOnStartFns.push(fn);
@@ -4184,7 +4204,7 @@ var WebAnimationsDriver = class {
   computeStyle(element, prop, defaultValue) {
     return window.getComputedStyle(element)[prop];
   }
-  animate(element, keyframes, duration, delay, easing, previousPlayers = []) {
+  animate(element, keyframes2, duration, delay, easing, previousPlayers = []) {
     const fill = delay == 0 ? "both" : "forwards";
     const playerOptions = {
       duration,
@@ -4201,7 +4221,7 @@ var WebAnimationsDriver = class {
         player.currentSnapshot.forEach((val, prop) => previousStyles.set(prop, val));
       });
     }
-    let _keyframes = normalizeKeyframes(keyframes).map((styles) => copyStyles(styles));
+    let _keyframes = normalizeKeyframes(keyframes2).map((styles) => copyStyles(styles));
     _keyframes = balancePreviousStylesIntoKeyframes(element, _keyframes, previousStyles);
     const specialStyles = packageNonAnimatableStyles(element, _keyframes);
     return new WebAnimationsPlayer(element, _keyframes, playerOptions, specialStyles);
@@ -4589,7 +4609,10 @@ export {
   animate,
   style,
   state,
+  keyframes,
   transition,
+  animateChild,
+  query,
   InjectableAnimationEngine,
   BrowserAnimationsModule,
   provideAnimations,
@@ -4619,4 +4642,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-AFXOKSUN.js.map
+//# sourceMappingURL=chunk-NDVXJ4OQ.js.map

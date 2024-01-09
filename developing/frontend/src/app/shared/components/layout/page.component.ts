@@ -7,10 +7,10 @@ import {MatToolbarModule} from "@angular/material/toolbar";
   standalone: true,
     imports: [CommonModule, MatToolbarModule],
   template: `
-      <mat-toolbar class="page-header">
+      <div class="col p-2">
           <h1>{{title}}</h1>
-          <h4>{{subtitle}}</h4>
-      </mat-toolbar>
+          <p>{{subtitle}}</p>
+      </div>
   `,
   styles: ``
 })
