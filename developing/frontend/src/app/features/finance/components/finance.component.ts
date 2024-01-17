@@ -24,7 +24,6 @@ import {SimpleTableComponent} from "../../../shared/tables/simple-table.componen
           </ul>
 
          <kito-simple-table [data]="(financeAssets$ | async)?.items"></kito-simple-table>
-
       </div>
   `,
   styles: ``

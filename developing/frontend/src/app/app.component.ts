@@ -48,7 +48,7 @@ import {MENU, MenuItem} from "./shared/models/menu";
 
               <!-- Side Navigation -->
               <mat-sidenav-container>
-                  <mat-sidenav #sidenav mode="over">
+                  <mat-sidenav #sidenav mode="over" style="padding-top: 60px">
                       <mat-nav-list>
                           <a mat-list-item routerLink="/public">Public</a>
                           <mat-divider></mat-divider>

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatSort, MatSortModule} from "@angular/material/sort";
@@ -18,7 +18,10 @@ import {MatFormFieldModule} from '@angular/material/form-field';
       <div class="container-fluid">
           <mat-form-field>
               <mat-label>Filter</mat-label>
-              <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+              <input matInput
+                     (keyup)="applyFilter(filterInput)"
+                     #filterInput
+                     placeholder="Filter">
           </mat-form-field>
 
           <div class="mat-elevation-z8">
@@ -32,7 +35,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 
                   <!-- Row shown when there is no matching data. -->
                   <tr class="mat-row" *matNoDataRow>
-                      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                      <td class="mat-cell" colspan="4">No data matching the filter "{{filterInput.value}}"</td>
                   </tr>
 
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -49,9 +52,10 @@ export class SimpleTableComponent implements AfterViewInit{
 
     @Input() data: FinanceAsset[]
 
+    @ViewChild('filterInput') myInput: ElementRef<HTMLInputElement> | undefined
+
     displayedColumns: string[] = ['name'];
     dataSource: MatTableDataSource<FinanceAsset>;
-
 
     constructor() {
         if (this.data) {
@@ -59,12 +63,11 @@ export class SimpleTableComponent implements AfterViewInit{
         }
     }
 
-    ngAfterViewInit() {
-        console.log(this.data)
-    }
+    ngAfterViewInit() {}
 
-    applyFilter(event: Event) {
-        const filterValue = (event.target as HTMLInputElement).value;
+    applyFilter(input: HTMLInputElement) {
+        const filterValue = input.value;
+        console.log(input)
         this.dataSource.filter = filterValue.trim().toLowerCase();
 
         if (this.dataSource.paginator) {
