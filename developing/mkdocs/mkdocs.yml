@@ -1,0 +1,43 @@
+site_name: kito.ai
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+  #favicon: favicon.ico
+
+nav:
+  - Home: index.md
+  - About: about.md
+  - Contact: contact.md
+  - Repos: github-repos.md
+  - Blog:
+      - Overview: blog/index.md
+      - Example Post: blog/example-post.md
+  - Code:
+      - Overview: code/index.md
+      - Example Code: code/example-code.md
+  - GitHub Repositories:
+      - Repo 1: https://github.com/yourusername/repo1
+      - Repo 2: https://github.com/yourusername/repo2
+      - Repo 3: https://github.com/yourusername/repo3
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/yourusername
+
+  include:
+      - partials/footer.html
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - https://kit.fontawesome.com/a076d05399.js # Ensure you have a valid FontAwesome kit link

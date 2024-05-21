@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  blog:
+    build:
+      context: .
+      args:
+        DOMAIN: ${DOMAIN}
+        EMAIL: ${EMAIL}
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DOMAIN=${DOMAIN}
+      - EMAIL=${EMAIL}
+
+  pocketbase:
+    image: pocketbase/pocketbase
+    ports:
+      - "8090:8090"
+    volumes:
+      - pb_data:/pb/pb_data
+    environment:
+      - DOMAIN=${DOMAIN}
+      - EMAIL=${EMAIL}
+
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt:/etc/letsencrypt
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - blog
+      - pocketbase
+
+volumes:
+  pb_data:
+
+env_file:
+  - .env
