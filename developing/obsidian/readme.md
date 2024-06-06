@@ -101,3 +101,112 @@ my-pelican-site/
 ├── pelicanconf.py
 └── publishconf.py
 ```
+
+
+
+# For Nginc
+
+You can use a web server like Nginx or Apache. Here we'll use Nginx as an example.
+
+SSH into your VPS:
+
+
+    ssh root@84.247.132.168
+
+Install Nginx:
+
+    sudo apt update
+    sudo apt install nginx
+
+
+Start Nginx:
+
+    sudo systemctl start nginx
+    sudo systemctl enable nginx
+
+
+    sudo nano /etc/nginx/sites-available/kito.ai
+
+Config
+
+server {
+    listen 80;
+    server_name kito.ai www.kito.ai;
+
+    # Redirect HTTP to HTTPS
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name kito.ai www.kito.ai;
+
+    # SSL configuration
+    ssl_certificate /etc/letsencrypt/live/kito.ai/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/kito.ai/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    # Serve the site at /blog
+    location /blog {
+        proxy_pass http://localhost:8000;  # Adjust this to the port your application is running on
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Serve ACME challenge for Certbot
+    location /.well-known/acme-challenge/ {
+        root /var/www/html;
+        try_files $uri =404;
+    }
+}
+
+
+
+Enable the stie
+
+    sudo ln -s /etc/nginx/sites-available/kito.ai /etc/nginx/sites-enabled/
+    sudo nginx -t
+    sudo systemctl restart nginx
+
+Edit site
+
+    sudo nano /etc/nginx/sites-available/kito.ai
+    sudo rm /etc/nginx/sites-enabled/kito.ai
+    sudo ln -s /etc/nginx/sites-available/kito.ai /etc/nginx/sites-enabled/
+    sudo nginx -t
+    sudo systemctl restart nginx
+
+
+
+
+# Cert 
+
+Install Certbot:
+
+    sudo apt update
+    sudo apt install certbot python3-certbot-nginx
+
+Obtain and Install SSL Certificate:
+Run Certbot to obtain and install the SSL certificate:
+
+    sudo certbot --nginx -d kito.ai -d www.kito.ai
+
+Follow the prompts to complete the certificate installation.
+
+Verify SSL Configuration:
+Test the Nginx configuration again:
+
+    sudo nginx -t
+    sudo systemctl restart nginx
+
+Auto-Renewal Setup:
+Certbot automatically sets up a cron job for renewal. To manually test the renewal process, you can run:    
+    
+    sudo certbot renew --dry-run
+
+
