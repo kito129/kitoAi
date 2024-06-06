@@ -42,23 +42,23 @@ configure-lektor: install-lektor
 	. $(VENV_DIR)/bin/activate && lektor quickstart --name $(LEKTOR_PROJECT_NAME)
 
 # Build Docker images
-docker-build:
+compose-build:
 	docker-compose build
 
 # Bring up Docker services
-docker-up:
+compose-up:
 	docker-compose up -d
 
 # Bring down Docker services
-docker-down:
+compose-down:
 	docker-compose down
 
 # Destroy Docker services and volumes
-docker-destroy:
+compose-destroy:
 	docker-compose down -v --remove-orphans
 
 # Rebuild and restart Docker services
-docker-reload: docker-destroy docker-build docker-up
+compose-reload: docker-destroy docker-build docker-up
 
 # View Docker Compose logs
 logs:
