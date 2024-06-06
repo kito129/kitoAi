@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  pelican:
+    build: .
+    volumes:
+      - .:/site
+    working_dir: /site
+    ports:
+      - "8000:8000"
+    command: sh -c "pelican content -o output -s pelicanconf.py && python -m http.server --directory output 8000"
+
+  lektor:
+    build:
+      context: .
+      dockerfile: Dockerfile.lektor
+    volumes:
+      - .:/site
+    working_dir: /site
+    ports:
+      - "5000:5000"
+    command: lektor server -h 0.0.0.0 -p 5000

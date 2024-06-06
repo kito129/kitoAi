@@ -1,0 +1,9 @@
+# Dockerfile.lektor
+
+FROM python:3.9-slim
+
+RUN pip install lektor
+
+WORKDIR /site
+
+CMD ["lektor", "server", "-h", "0.0.0.0", "-p", "5000"]
